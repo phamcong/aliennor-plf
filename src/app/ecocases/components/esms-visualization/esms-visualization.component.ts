@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./esms-visualization.component.scss']
 })
 
-export class EsmsVisualizationComponent implements OnInit, AfterViewInit, OnDestroy {
+export class EsmsVisualizationComponent implements OnInit {
   vis; simulation;
   color;
   node; nodeText; link;

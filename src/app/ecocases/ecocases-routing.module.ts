@@ -5,7 +5,6 @@ import { EcocaseDetailsComponent } from './components/ecocase-details/ecocase-de
 import { EcocaseDetailResolverService } from './services/ecocase-detail-resolver.service';
 import { EcocasePostComponent } from './components/ecocase-post/ecocase-post.component';
 import { UntaggedEcocasesComponent } from './components/untagged-ecocases/untagged-ecocases.component';
-import { D3VisualizationComponent } from '../shared/components/d3-visualization/d3-visualization.component';
 import { VisualizationComponent } from './components/visualization/visualization.component';
 
 const routes: Routes = [

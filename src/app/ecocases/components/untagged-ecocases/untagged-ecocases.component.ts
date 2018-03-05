@@ -15,6 +15,10 @@ export class UntaggedEcocasesComponent implements OnInit {
   public ecocasesSinceDate: Date | any;
   public spinnerStyles: any;
   public filters$: Observable<any>;
+  public filters: {
+    esms: any[],
+    categories: any[]
+  };
   public ctgsFilters: any[];
   public count_results: {
     esms: any,

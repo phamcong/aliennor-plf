@@ -45,7 +45,7 @@ export function tokenGetter(): string { return localStorage.getItem('access_toke
     BrowserModule,
     MaterialModule,
     HttpClientModule,
-    JwtModule.forRoot({ config: { tokenGetter, whitelistedDomains: ['localhost:3001'] } }),,
+    JwtModule.forRoot({ config: { tokenGetter, whitelistedDomains: ['localhost:3001'] } }),
     UserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
