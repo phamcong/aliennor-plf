@@ -12,7 +12,7 @@ import { EcocasesService } from '../../../ecocases/services/ecocases.service';
 })
 export class EsmEcocasesComponent implements OnInit {
   public esmId: number;
-  public esm: {'title': ''};
+  public esm: {'title': '', 'count_results': any[]};
   public ecocases$: Observable<any>;
   public ecocases: any[];
   public spinnerStyles: any;
@@ -34,7 +34,7 @@ export class EsmEcocasesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.esm = {'title': ''};
+    this.esm = {'title': '', 'count_results': []};
     this.filters = {esms: [], categories: []};
     this.route.params.subscribe(params => {
       this.esmId = +params['id']; // (+) converts string 'id' to a number
@@ -42,19 +42,19 @@ export class EsmEcocasesComponent implements OnInit {
       this.ecocases$ = this.esmss.getESMById(this.esmId)
         .pipe(
           map(res => {
-            this.esm = res.data.esm;
+            this.esm = res['data'].esm;
             this.esm['checked'] = true;
             this.filters$ = this.es.getFilterCriteria()
               .pipe(
                 map(res => {
                   this.filters.esms = [this.esm];
-                  this.filters.categories = res.data.filter_criteria.categories.map(ctg => { ctg.checked = true; return ctg; });
+                  this.filters.categories = res['data'].filter_criteria.categories.map(ctg => { ctg.checked = true; return ctg; });
                   this.es.getEcocases(this.filters)
                     .pipe(
                       map( res => {
                         console.log('esm-ecocases.component getEcocases ===> res: ', res);
-                        this.ecocases = res.data.ecocases;
-                        this.filters = this.es.updateFilters(this.filters, res.data.count_results);
+                        this.ecocases = res['data'].ecocases;
+                        this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
                         console.log('fitlers: ', this.filters);
                       }))
                     .subscribe();
@@ -66,7 +66,7 @@ export class EsmEcocasesComponent implements OnInit {
       //   .pipe(
       //     map(res => {
       //       console.log('esm-ecocases component res', res);
-      //       this.ecocases = res.data.ecocases;
+      //       this.ecocases = res['data'].ecocases;
       //     })
       //   )
       // this.ecocases$.subscribe();
@@ -82,7 +82,7 @@ export class EsmEcocasesComponent implements OnInit {
     this.esmss.getESMById(this.esmId)
       .pipe(
         map(res => {
-          this.esm = res.data.esm;
+          this.esm = res['data'].esm;
           this.esm['checked'] = true;
         })
       )
@@ -107,8 +107,8 @@ export class EsmEcocasesComponent implements OnInit {
       .pipe(
         map(res => {
           console.log('res: ', res);
-          this.ecocases = res.data.ecocases;
-          this.filters = this.es.updateFilters(this.filters, res.data.count_results);
+          this.ecocases = res['data'].ecocases;
+          this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
         }))
       .subscribe();
   }

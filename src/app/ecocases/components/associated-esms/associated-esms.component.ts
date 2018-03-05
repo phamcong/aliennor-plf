@@ -40,7 +40,7 @@ export class AssociatedEsmsComponent implements OnInit {
         mergeMap(page => this.es.getAssociatedESMs(this.ecocaseId)),
         map(res => {
           console.log('res:', res);
-          var obj = res.data.associated_esms_summary;
+          var obj = res['data'].associated_esms_summary;
           return Object.keys(obj).map(key => obj[key])
         }))
       .subscribe(associatedESMs => {

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import { EcocasesService } from '../../services/ecocases.service';
 import { map } from 'rxjs/operators';
-import { min } from 'rxjs/operator/min';
 import { Router } from '@angular/router';
 import { urls } from './urls';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-ecocases-visualization',
@@ -26,7 +25,6 @@ export class EcocasesVisualizationComponent implements OnInit {
   vis; simulation;
   color;
   node; nodeText; link;
-  width; height;
   constructor(
     private es: EcocasesService,
     private router: Router,
@@ -38,12 +36,12 @@ export class EcocasesVisualizationComponent implements OnInit {
     this.es.getEcocases({})
       .pipe(
         map(res => {
-          this.ecocases = res.data.ecocases;
+          this.ecocases = res['data'].ecocases;
           console.log('at ecocases-visualization ===> this.ecocases: ', this.ecocases);
         }))
       .subscribe();
 
-    let str = []
+    let str = [];
     urls.forEach(function(item) {
       var line = [];
       item.categories.split(',').forEach(function(ctg) {
@@ -61,7 +59,7 @@ export class EcocasesVisualizationComponent implements OnInit {
         .pipe(
           map( res => {
             console.log('at ecocases-visualization ===> getWeightESMsTaggedEcocase => res: ', res);
-            var obj = res.data.esms_weights;
+            var obj = res['data'].esms_weights;
             this.esmsWeights =  Object.keys(obj).map(key => obj[key]);
             this.d3TaggedEcocaseESMs = this.getD3TaggedEcocaseESMs(ecocase, this.esmsWeights, this.width, this.height);
             this.displayD3Graph(this.d3TaggedEcocaseESMs, 'ecocaseESMsGraph');
@@ -72,7 +70,7 @@ export class EcocasesVisualizationComponent implements OnInit {
         .pipe(
           map(res => {
             console.log('at ecocases-visualization ===> getAssociatedESMs summary => res: ', res);
-            var obj = res.data.associated_esms_summary;
+            var obj = res['data'].associated_esms_summary;
             this.associated_esms =  Object.keys(obj).map(key => obj[key]);
             this.d3UntaggedEcocaseESMs =  this.getD3UntaggedEcocaseESMs(ecocase, this.associated_esms, this.width, this.height);
             this.displayD3Graph(this.d3UntaggedEcocaseESMs, 'ecocaseESMsGraph');
@@ -139,10 +137,10 @@ export class EcocasesVisualizationComponent implements OnInit {
       .classed("svg-container",true).append("svg:svg").attr("preserveAspectRatio","xMinYMin meet").attr("viewBox","-50 -70 800 500").classed("svg-content-responsive",true)
       .attr("id","idD3"+graphDiv).attr("width",this.width).attr("height",this.height).attr("pointer-events","all")
 
-    this.color = d3.scaleOrdinal(d3.schemeCategory20);
+    this.color = d3.scaleOrdinal(d3.schemeCategory10);
 
     this.simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id((d) => d.id))
+      .force("link", d3.forceLink().id((d) => d['id']))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(this.width/2, this.height/2))
       .force("y", d3.forceY(0))

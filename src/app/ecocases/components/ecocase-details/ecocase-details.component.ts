@@ -49,8 +49,8 @@ export class EcocaseDetailsComponent implements OnInit {
           .pipe(
             map(res => {
               console.log('getEcocaseDetails: ', res);
-              this.ecocase = res.data.ecocase;
-              this.esmevaluations = res.data.esmevaluations;
+              this.ecocase = res['data'].ecocase;
+              this.esmevaluations = res['data'].esmevaluations;
               this.esmevaluations.forEach(function(esmevaluation) {
                 let str = esmevaluation.answer;
                 esmevaluation.answer = str ? String(str).replace(/<[^>]+>/gm, '') : '';

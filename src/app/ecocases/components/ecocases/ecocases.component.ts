@@ -70,8 +70,8 @@ export class EcocasesComponent implements OnInit {
           this.es.getEcocases(this.filters)
             .pipe(
               map(res => {
-                this.ecocases = res.data.ecocases;
-                this.filters = this.es.updateFilters(this.filters, res.data.count_results);
+                this.ecocases = res['data'].ecocases;
+                this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
                 console.log('res: ', res);
                 console.log('filters', this.filters);
               }))
@@ -130,9 +130,9 @@ export class EcocasesComponent implements OnInit {
     this.es.appliedFiltersEcocases(filters)
       .pipe(
         map(res => {
-          console.log('appliedFiltersEcocases: ', res.data.ecocases);
-          this.ecocases = res.data.ecocases;
-          this.filters = this.es.updateFilters(this.filters, res.data.count_results);
+          console.log('appliedFiltersEcocases: ', res['data'].ecocases);
+          this.ecocases = res['data'].ecocases;
+          this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
         }))
       .subscribe();
   }

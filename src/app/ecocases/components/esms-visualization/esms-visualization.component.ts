@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { miserables } from './miserables';
+import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { EsmsService } from '../../../esms/services/esms.service';
 import { EcocasesService } from '../../services/ecocases.service';
-import { Observable } from 'rxjs/Observable';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-esms-visualization',
@@ -34,13 +33,13 @@ export class EsmsVisualizationComponent implements OnInit {
     this.esmss.getESMs()
       .pipe(
         map(res => {
-          console.log('esmsssssssssssss:', res.data.esms);
-          this.esms = res.data.esms;
+          console.log('esmsssssssssssss:', res['data'].esms);
+          this.esms = res['data'].esms;
           this.esmss.getEcocasesByESM(this.esms[0].id)
             .pipe(
               map(res => {
                 console.log('esms-visualization => clickESM => res ', res);
-                this.ecocases = res.data.ecocases;
+                this.ecocases = res['data'].ecocases;
                 this.d3ESMEcocases = this.getD3ESMEcocases(this.esms[0], this.ecocases, this.width, this.height);
                 console.log('esms-visualization => clickESM => d3ESMEcocases ', this.d3ESMEcocases);
                 this.displayD3Graph(this.d3ESMEcocases, 'esmEcocasesGraph');
@@ -56,7 +55,7 @@ export class EsmsVisualizationComponent implements OnInit {
       .pipe(
         map(res => {
           console.log('esms-visualization => clickESM => res ', res);
-          this.ecocases = res.data.ecocases;
+          this.ecocases = res['data'].ecocases;
           this.d3ESMEcocases = this.getD3ESMEcocases(esm, this.ecocases, this.width, this.height);
           console.log('esms-visualization => clickESM => d3ESMEcocases ', this.d3ESMEcocases);
           this.displayD3Graph(this.d3ESMEcocases, 'esmEcocasesGraph');
@@ -88,10 +87,10 @@ export class EsmsVisualizationComponent implements OnInit {
       .classed("svg-container",true).append("svg:svg").attr("preserveAspectRatio","xMinYMin meet").attr("viewBox","-50 -70 800 500").classed("svg-content-responsive",true)
       .attr("id","idD3"+graphDiv).attr("width",this.width).attr("height",this.height).attr("pointer-events","all")
 
-    this.color = d3.scaleOrdinal(d3.schemeCategory20);
+    this.color = d3.scaleOrdinal(d3.schemeCategory10);
 
     this.simulation = d3.forceSimulation()
-      .force("link", d3.forceLink().id((d) => d.id))
+      .force("link", d3.forceLink().id((d) => d['id']))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(this.width/2, this.height/2))
       .force("y", d3.forceY(0))
