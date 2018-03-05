@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="0f651ec1-6261-482d-a8a7-839da066c66e" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/dist/" />
@@ -75,11 +76,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="254">
               <caret line="31" column="29" lean-forward="true" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.module.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="51" column="17" lean-forward="true" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -129,7 +140,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ecocaseId</find>
       <find>toolbar</find>
       <find>rootoulet</find>
       <find>router-outlet</find>
@@ -159,6 +169,7 @@
       <find>(ecocase$ | async)</find>
       <find>@Input</find>
       <find>aliennor-frontend/</find>
+      <find>tokenGetter</find>
     </findStrings>
     <replaceStrings>
       <replace>mat</replace>
@@ -175,7 +186,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/app/auth/components/login/login.component.ts" />
-        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
         <option value="$PROJECT_DIR$/src/app/esms/components/esms/esms.component.ts" />
         <option value="$PROJECT_DIR$/src/app/esms/components/esms/esms.component.scss" />
         <option value="$PROJECT_DIR$/src/app/esms/esms-routing.module.ts" />
@@ -225,6 +235,7 @@
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/src/app/app.module.ts" />
       </list>
     </option>
   </component>
@@ -271,6 +282,17 @@
             <path>
               <item name="aliennor-frontend" type="b2602c69:ProjectViewProjectNode" />
               <item name="aliennor-frontend" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aliennor-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aliennor-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="aliennor-frontend" type="b2602c69:ProjectViewProjectNode" />
+              <item name="aliennor-frontend" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -343,12 +365,12 @@
       <workItem from="1519056643941" duration="1444000" />
       <workItem from="1519092156334" duration="16304000" />
       <workItem from="1519380405150" duration="60150000" />
-      <workItem from="1520079954948" duration="34210000" />
+      <workItem from="1520079954948" duration="34782000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303949000" />
+    <option name="totallyTimeSpent" value="304521000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -444,14 +466,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="0" lean-forward="false" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="83" column="33" lean-forward="false" selection-start-line="83" selection-start-column="33" selection-end-line="83" selection-end-column="33" />
           <folding />
         </state>
       </provider>
@@ -853,6 +867,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="254">
           <caret line="31" column="29" lean-forward="true" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/app.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="51" column="17" lean-forward="true" selection-start-line="51" selection-start-column="17" selection-end-line="51" selection-end-column="17" />
           <folding />
         </state>
       </provider>

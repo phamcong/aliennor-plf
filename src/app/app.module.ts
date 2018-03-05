@@ -35,6 +35,7 @@ import { EsmsService } from './esms/services/esms.service';
 export function startServiceFactory(ss: StartupService): () => Promise<any> {
   return () => ss.load()
 }
+export function tokenGetter(): string { return localStorage.getItem('access_token'); }
 
 @NgModule({
   declarations: [
@@ -44,14 +45,7 @@ export function startServiceFactory(ss: StartupService): () => Promise<any> {
     BrowserModule,
     MaterialModule,
     HttpClientModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter: () => {
-          return localStorage.getItem('crsftoken');
-        },
-        whitelistedDomains: ['localhost:4200']
-      }
-    }),
+    JwtModule.forRoot({ config: { tokenGetter, whitelistedDomains: ['localhost:3001'] } }),,
     UserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
