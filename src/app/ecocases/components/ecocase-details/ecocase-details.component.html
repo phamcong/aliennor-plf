@@ -1,0 +1,102 @@
+<!-- Display ecocase$ by id -->
+<br>
+<div class="container" *ngIf="ecocase">
+  <div class="panel panel-default">
+    <div class="panel-heading text-center"><h4>{{ecocase.title}}</h4></div>
+    <div class="panel-body">
+      <div class="row top-buffer">
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Visualisation</div>
+            <div class="panel-body visualization-panel">
+              <div class="list-inline">
+                  <div *ngFor="let image_url of ecocase.image_urls" class="center-block">
+                    <img src="{{ image_url }}" class='inline-image' alt="">
+                  </div>
+                <!-- <ul class="list-inline">
+                  <div *ngFor="let image_url of (ecocase$ | async).image_urls">
+                    <div class="cover-item">
+                      <li><img src="{{ image_url }}" class="center-block" alt=""></li>
+                    </div>
+                  </div>
+                </ul> -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 characters-area">
+          <div class="panel panel-default">
+            <div class="panel-heading">Promise</div>
+            <div class="panel-body promise-panel">
+              {{ ecocase.promise | htmlToPlaintext }}
+            </div>
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">Description</div>
+            <div class="panel-body description-panel">
+                {{ ecocase.description | htmlToPlaintext }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-md-6 evaluation-div">
+          <div class="panel panel-default">
+            <div class="panel-heading">Catégories</div>
+            <div class="panel-body ctg-level-panel">
+              <ul *ngFor="let ctg of ecocase.categories">
+                <li>{{ctg}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 evaluation-div">
+          <div class="panel panel-default">
+            <div class="panel-heading">Niveau</div>
+            <div class="panel-body ctg-level-panel">
+              <ul *ngFor="let level of ecocase.levels">
+                <li>{{level}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="(ecocase.first_esm == null) && (ecocase.second_esm == null)">
+        <app-associated-esms [esmevaluations]="esmevaluations" [ecocaseId]="ecocaseId"></app-associated-esms>
+      </div>
+      <div class="row" *ngIf="(ecocase.first_esm !== null) || (ecocase.second_esm !== null)">
+        <div class="col-md-6 evaluation-div">
+          <div class="panel panel-default">
+            <div class="panel-heading">Le mécanisme le plus associcé</div>
+            <div class="panel-body associated-esms-panel">
+              <ul *ngIf="ecocase.first_esm !== undefined">
+                <li>{{ecocase.first_esm.title}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 evaluation-div">
+          <div class="panel panel-default">
+            <div class="panel-heading">Le deuxième mécanisme le plus associé</div>
+            <div class="panel-body associated-esms-panel">
+              <ul *ngIf="ecocase.second_esm !== null">
+                <li>{{ecocase.second_esm.title}}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+       <!--<div class="panel panel-default">
+        <div class="panel-heading pull-right">
+          <a href="{% url 'ecocases:upload_image' (ecocase$ | async).id %}">Upload more images?</a>
+        </div>
+      </div>-->
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <app-ecocase-comments [ecocaseId]="ecocaseId" width="200"></app-ecocase-comments>
+  </div>
+</div>
