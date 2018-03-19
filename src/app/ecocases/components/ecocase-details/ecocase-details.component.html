@@ -64,13 +64,13 @@
           </div>
         </div>
       </div>-->
-      <div class="row" *ngIf="(ecocase.first_esm == null) && (ecocase.second_esm == null)">
+      <div class="row">
         <app-associated-esms [esmevaluations]="esmevaluations" [nonESM]="nonESM" [ecocaseId]="ecocaseId"></app-associated-esms>
       </div>
       <div class="row" *ngIf="(ecocase.first_esm !== null) || (ecocase.second_esm !== null)">
         <div class="col-md-6 evaluation-div">
           <div class="panel panel-default">
-            <div class="panel-heading">Le mécanisme le plus associcé</div>
+            <div class="panel-heading">Premier mécanisme le plus adapté en cours</div>
             <div class="panel-body associated-esms-panel">
               <ul *ngIf="ecocase.first_esm !== undefined">
                 <li>{{ecocase.first_esm.title}}</li>
@@ -80,7 +80,7 @@
         </div>
         <div class="col-md-6 evaluation-div">
           <div class="panel panel-default">
-            <div class="panel-heading">Le deuxième mécanisme le plus associé</div>
+            <div class="panel-heading">Second mécanisme le plus adapté en cours</div>
             <div class="panel-body associated-esms-panel">
               <ul *ngIf="ecocase.second_esm !== null">
                 <li>{{ecocase.second_esm.title}}</li>
