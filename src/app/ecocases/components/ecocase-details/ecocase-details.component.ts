@@ -18,6 +18,7 @@ export class EcocaseDetailsComponent implements OnInit {
   ecocase: any;
   esmevaluations: any[];
   previousUserRating = 0;
+  nonESM: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,8 +51,9 @@ export class EcocaseDetailsComponent implements OnInit {
             map(res => {
               console.log('getEcocaseDetails: ', res);
               this.ecocase = res['data'].ecocase;
+              this.nonESM = res['data'].nonESM;
               this.esmevaluations = res['data'].esmevaluations;
-              this.esmevaluations.forEach(function(esmevaluation) {
+              this.esmevaluations.forEach( esmevaluation => {
                 let str = esmevaluation.answer;
                 esmevaluation.answer = str ? String(str).replace(/<[^>]+>/gm, '') : '';
               });

@@ -1,0 +1,60 @@
+<div fxLayout="row" class="">
+
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="outer-div">
+      <div class="inner-div">Cas taggés</div>
+      <div class="inner-div-right">
+        <div class="dropdown">
+          <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            FILTERS
+            <i class="fa fa-caret-down" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <div class="panel panel-default esms-filter-panel">
+              <div class="panel-heading">Mécanismes</div>
+              <div class="panel-body">
+                <div *ngFor="let esm of filters.esms">
+                  <input type="checkbox" name="tc" [(ngModel)]="esm.checked" class="margin-right">
+                  {{ esm.title }}
+                  <label class="pull-right" *ngIf="esm.checked">{{ esm.count_results }}</label>
+                  <div class="clearfix"></div>
+                </div>
+                <!--<div class="panel-heading">Catégories</div>
+                <div class="panel-body">
+                  <div *ngFor="let ctg of filters.categories">
+                    <input type="checkbox" name="category.id" [(ngModel)]="ctg.checked" class="margin-right">
+                    {{ ctg.title }}
+                    <label class="pull-right" *ngIf="ctg.checked">{{ ctg.count_results }}</label>
+                    <div class="clearfix"></div>
+                  </div>
+                </div>-->
+              </div>
+            </div>
+            <button mat-raised-button color='primary' class="fw filter-submit-button" (click)="applyFilters(filters)">Appliquer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body tagged-cases-panel-body">
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutWrap="wrap" fxLayoutGap="10px">
+      <mat-card
+        fxFlex="100"
+        fxFlex.gt-xs="22"
+        fxFlex.gt-md="15"
+        class="ecocase-card"
+        *ngFor="let ecocase of ecocases">
+        <div class="img-wrap">
+          <div class="image-container">
+            <img mat-card-image [src]="ecocase.image_urls[0]" (click)="getEcocaseDetails(ecocase)" class="representive-ecocase-image">
+          </div>
+        </div>
+        <mat-card-content>
+          <h4 mat-raised-button class="fw" (click)="getEcocaseDetails(ecocase)">{{ ecocase.title | truncate:[30, '...'] }}</h4>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

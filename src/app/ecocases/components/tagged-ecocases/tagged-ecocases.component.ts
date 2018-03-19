@@ -1,22 +1,21 @@
-import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { EcocasesService } from '../../services/ecocases.service';
 import { Router } from '@angular/router';
 import { async } from 'rxjs/scheduler/async';
 import { map } from 'rxjs/operators';
-import { UserService } from '../../../auth/services/user.service';
 
 
 @Component({
-  selector: 'app-ecocases',
-  templateUrl: './ecocases.component.html',
-  styleUrls: ['./ecocases.component.scss']
+  selector: 'app-tagged-ecocases',
+  templateUrl: './tagged-ecocases.component.html',
+  styleUrls: ['./tagged-ecocases.component.scss']
 })
 
-export class EcocasesComponent implements OnInit {
+export class TaggedEcocasesComponent implements OnInit {
+  @Input() username: string;
   public ecocases: any[];
   public esm_titles: any;
-  public username: string;
   public ecocasesSinceDate: Date | any;
   public spinnerStyles: any;
   public filters$: Observable<any>;
@@ -31,51 +30,54 @@ export class EcocasesComponent implements OnInit {
 
   constructor(
     private es: EcocasesService,
-    private us: UserService,
     private router: Router
   ) { }
 
   ngOnInit() {
-
     // custom styles to fit loader to card container
     this.spinnerStyles = {
       margin: '-24px -24px 16px -24px'
     };
+
+    console.log('at tagged ecocases: ', this.username);
+
     this.filters = {
       esms: [],
       categories: []
     };
-    this.username = this.us.getOrSetUserName();
-    /*if (this.userName != 'unregistered user') {
+
+    if ((this.es.taggedEcocases !== undefined) && (this.es.updatedFilters !== undefined)) {
+      this.filters = this.es.updatedFilters;
+      this.ecocases = this.es.taggedEcocases;
+      console.log('this.es.taggedEcocases: ', this.es.taggedEcocases);
+    } else {
       this.es.getFilterCriteria()
-        .pipe(
-          map(res => {
-            console.log('getFilterCriteria res: ', res);
-            this.filters.esms = res['data'].filter_criteria.esms.map(esm => {
-              esm.checked = true;
-              return esm
+        .subscribe(data => {
+          this.filters = this.es.filters;
+          this.es.getTaggedEcocases(this.filters, this.username)
+            .subscribe(data => {
+              this.ecocases = this.es.taggedEcocases;
+              this.filters = this.es.updatedFilters;
             });
-            this.filters.categories = res['data'].filter_criteria.categories.map(ctg => {
-              ctg.checked = true;
-              return ctg;
-            });
-            this.userName = this.us.getOrSetUserName();
-            if (this.userName != 'unregistered user') {}
-            this.es.getEcocases(this.filters, this.userName)
-              .pipe(
-                map(res => {
-                  this.ecocases = res['data'].ecocases;
-                  this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
-                  console.log('res: ', res);
-                  console.log('filters', this.filters);
-                }))
-              .subscribe( data => {
-                console.log('data', data)
-              })
-          }))
-      .subscribe();
-    }*/
-    // this.filters = this.es.filters;
+        });
+    }
+    /*this.es.getFilterCriteria()
+      .subscribe( data => {
+        this.filters = this.es.filters;
+        this.es.getTaggedEcocases(this.filters)
+          .pipe(
+            map(res => {
+              this.ecocases = res['data'].ecocases;
+              this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
+              console.log('res: ', res);
+              console.log('filters', this.filters);
+            }))
+        .subscribe( data => {
+          console.log('data', data)
+        })
+      })
+    ;
+    this.filters = this.es.filters;*/
   }
 
   getEcocaseDetails(ecocase: any): void {

@@ -1,0 +1,15 @@
+@import '../../../../scss/variables.scss';
+@import '../../../../scss/styles.scss';
+
+.inner-div {
+  margin: 0 auto;
+  width: 100px;
+  display:inline-block;
+}
+
+.inner-div-right {
+  margin: 0 auto;
+  width: 100px;
+  float: right;
+  display:inline-block;
+}

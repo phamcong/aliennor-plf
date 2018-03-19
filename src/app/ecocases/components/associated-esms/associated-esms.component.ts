@@ -6,6 +6,7 @@ import { UserService } from '../../../auth/services/user.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { map, mergeMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-associated-esms',
@@ -15,26 +16,40 @@ import { map, mergeMap } from 'rxjs/operators';
 export class AssociatedEsmsComponent implements OnInit {
   @Input() esmevaluations: any[];
   @Input() ecocaseId: string;
-  esms: string[];
+  @Input() nonESM: any;
   firstESM: any;
   secondESM: any;
+  esms: string[];
   associatedESMs: any[];
   associatedESMs$ = new BehaviorSubject<number>(1);
+  firstESMIdx: number;
+  secondESMIdx: number;
+  nonESM: boolean;
+  nonESMArgumentation: string;
 
   constructor(
     private es: EcocasesService,
     private fb: FormBuilder,
     private helpers: HelpersService,
-    public us: UserService
+    public us: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    console.log('associated-esm.component init:...', this.esmevaluations);
     this.firstESM = {'title': ''};
     this.secondESM = {'title': ''};
-    this.esms = [
-      'A', 'B', 'C', 'D'
-    ]
+    console.log('associated-esm.component init:...', this.esmevaluations);
+    this.esmevaluations.forEach((esmevaluation, index) => {
+      if (esmevaluation.is_first_esm) {
+        this.firstESMIdx = index;
+        this.firstESM.title = esmevaluation.esm.title;
+      }
+      if (esmevaluation.is_second_esm) {
+        this.secondESMIdx = index;
+        this.secondESM.title = esmevaluation.esm.title;
+      }
+    });
+
     this.associatedESMs$
       .pipe(
         mergeMap(page => this.es.getAssociatedESMs(this.ecocaseId)),
@@ -64,9 +79,9 @@ export class AssociatedEsmsComponent implements OnInit {
       });*/
   }
 
-  submitEsmevaluations(esmevaluations: any[]): void{
-    if ((this.firstESM.title == '') || (this.secondESM.title == ''))
-      alert('Please select the most and the second most associated mechanism');
+  submitEsmevaluations(esmevaluations: any[], ecocaseId, nonESM): void{
+    if ((this.firstESM.title == '') && (!this.nonESM))
+      alert('Veuillez-vous indiquer au moin un mécanisme associé ou cochez non mécanismes associés ligne');
     else {
       console.log('esmevaluations: ', esmevaluations);
       esmevaluations.forEach(function(esmevaluation) {
@@ -74,11 +89,45 @@ export class AssociatedEsmsComponent implements OnInit {
         esmevaluation.isFirstESM = esmevaluation.esm.title == this.firstESM.title;
         esmevaluation.isSecondESM = esmevaluation.esm.title == this.secondESM.title;
       }, this);
-      this.es.submitEsmevaluations(esmevaluations, this.ecocaseId)
+      this.es.submitEsmevaluations(esmevaluations, ecocaseId, nonESM)
         .subscribe(res => {
           console.log('submit esmevaluations successfully!');
           this.associatedESMs$.next(1);
         });
+      this.moveItem(this.es.untaggedEcocases, ecocaseId, this.es.taggedEcocases);
+      this.router.navigate([`ecocases`]);
     }
   };
+
+  private moveItem(untaggedEcocases, ecocaseId, taggedEcocase) {
+    let idx = -1;
+    untaggedEcocases.forEach((unTaggedEcocase, index) => {
+      if (unTaggedEcocase.id == ecocaseId)
+        idx = index;
+    });
+    if (idx != -1) {
+      taggedEcocase.push(untaggedEcocases[idx]);
+      untaggedEcocases.splice(idx, 1);
+    }
+  }
+
+  private clickNonESM(nonESM): void {
+    if (nonESM.isNonESM) {
+      this.firstESM.title = '';
+      this.secondESM.title = '';
+    }
+    console.log('this.nonESM: ', this.nonESM);
+  }
+
+  private onSelectionFirstESM(esmevaluation, nonESM): void {
+    console.log('changeeeee');
+    nonESM.isNonESM = false;
+  }
+
+  private onSelectionSecondESM(): void {
+    if (this.firstESM.title == '') {
+      alert('Veuillez-vous sélectionner le premier mécanisme le plus associé');
+      this.secondESM = {'title': ''};
+    }
+  }
 }

@@ -28,7 +28,7 @@
       <div [fxFlex]="width*0.8" class="content">
         <mat-form-field class="fw">
             <textarea matInput formControlName="comment"
-                      [placeholder]="(us.user$ | async) ? 'Postuler comment (comme '+(us.user$ | async).username + ')' : 'Postuler comment (comme  guest)'"></textarea>
+                      [placeholder]="(us.user$ | async) ? 'Postuler comment (comme '+(us.user$ | async).username + ')' : 'Postuler un commentaire (comme  guest)'"></textarea>
         </mat-form-field>
       </div>
       <div [fxFlex]="width*0.2" class="content">

@@ -1,0 +1,48 @@
+@import '../../../../scss/variables.scss';
+@import '../../../../scss/styles.scss';
+
+/*.esms-filter-panel .panel-heading {
+  min-height: 4vh;
+  max-height: 4vh;
+  overflow-y: scroll;
+}
+
+.esms-filter-panel .panel-body {
+  min-height: 32vh;
+  max-height: 32vh;
+  max-width: 350px;
+  min-width: 350px;
+  overflow-y: scroll;
+}*/
+
+.tagged-cases-panel-body {
+  min-height: 40vh;
+  max-height: 40vh;
+  overflow-y: scroll;
+}
+
+.esms-filter-panel {
+  max-width: 350px;
+  min-width: 350px;
+  overflow-x: scroll;
+}
+
+.filter-panel {
+  display: flex;
+  justify-content: flex-start;
+  //justify-content: flex-end; // flex-end to pull right
+  margin-bottom: 10px;
+}
+
+.inner-div {
+  margin: 0 auto;
+  width: 100px;
+  display:inline-block;
+}
+
+.inner-div-right {
+  margin: 0 auto;
+  width: 100px;
+  float: right;
+  display:inline-block;
+}
