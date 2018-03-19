@@ -109,7 +109,7 @@ export class AssociatedEsmsComponent implements OnInit {
     }
   }
 
-  private clickNonESM(nonESM): void {
+  public clickNonESM(nonESM): void {
     if (nonESM.isNonESM) {
       this.firstESM.title = '';
       this.secondESM.title = '';
@@ -117,12 +117,12 @@ export class AssociatedEsmsComponent implements OnInit {
     console.log('this.nonESM: ', this.nonESM);
   }
 
-  private onSelectionFirstESM(esmevaluation, nonESM): void {
+  public onSelectionFirstESM(esmevaluation, nonESM): void {
     console.log('changeeeee');
     nonESM.isNonESM = false;
   }
 
-  private onSelectionSecondESM(): void {
+  public onSelectionSecondESM(): void {
     if (this.firstESM.title == '') {
       alert('Veuillez-vous sélectionner le premier mécanisme le plus associé');
       this.secondESM = {'title': ''};
