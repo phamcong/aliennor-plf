@@ -17,6 +17,7 @@ export class AssociatedEsmsComponent implements OnInit {
   @Input() esmevaluations: any[];
   @Input() ecocaseId: string;
   @Input() nonESM: any;
+  @Input() username: string;
   firstESM: any;
   secondESM: any;
   esms: string[];

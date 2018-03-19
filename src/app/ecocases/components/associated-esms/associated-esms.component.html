@@ -53,7 +53,7 @@
           Premier mécanisme le plus associé
           <div class="panel-body">
             <select [(ngModel)]="firstESM.title" (ngModelChange)="nonESM.isNonESM = false">
-              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm === secondESM">{{esmevaluation.esm.title}}</option>
+              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm.title === secondESM.title">{{esmevaluation.esm.title}}</option>
             </select>
             <br>
             <i>Mécanisme sélectionné:</i> {{firstESM.title}}
@@ -65,7 +65,7 @@
           Second mécanisme le plus adapté
           <div class="panel-body">
             <select [(ngModel)]="secondESM.title" (ngModelChange)="onSelectionSecondESM()">
-              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm === firstESM">{{esmevaluation.esm.title}}</option>
+              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm.title === firstESM.title">{{esmevaluation.esm.title}}</option>
             </select>
             <br>
             <i>Mécanisme sélectionné:</i> {{secondESM.title}}
@@ -82,7 +82,7 @@
   </div>
 </div>
 
-<!--<div class="panel panel-default">
+<div class="panel panel-default" *ngIf="username == 'admin'">
   <div class="panel-heading">Sommaire</div>
   <div class="panel-body">
     <div class="row">
@@ -102,4 +102,4 @@
       </div>
     </div>
   </div>
-</div>-->
+</div>

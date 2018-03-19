@@ -19,6 +19,7 @@ export class EcocaseDetailsComponent implements OnInit {
   esmevaluations: any[];
   previousUserRating = 0;
   nonESM: any;
+  username: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +30,7 @@ export class EcocaseDetailsComponent implements OnInit {
 
   ngOnInit() {
     console.log('this.route: ', this.route);
+    this.username = this.us.getOrSetUserName();
     // this.route.data.pipe(
     //   map(res => {
     //     console.log('get ecocase detail, res: ', res.ecocase.data);
