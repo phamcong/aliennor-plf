@@ -24,8 +24,6 @@ export class AssociatedEsmsComponent implements OnInit {
   associatedESMs$ = new BehaviorSubject<number>(1);
   firstESMIdx: number;
   secondESMIdx: number;
-  nonESM: boolean;
-  nonESMArgumentation: string;
 
   constructor(
     private es: EcocasesService,

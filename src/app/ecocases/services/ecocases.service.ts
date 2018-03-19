@@ -54,7 +54,7 @@ export class EcocasesService {
     return date.toDate();
   }
 
-  getEcocases(filters: any, username: string): any {
+  getEcocases(filters: any): any {
     let url = '';
     if (filters.esms == undefined)
       url = `${config.api}/ecocases/`;
@@ -62,7 +62,7 @@ export class EcocasesService {
       const params = [
         `esms=${filters.esms.map(esm => (esm.checked) ? esm.title : '').join(',')}`,
         `categories=${filters.categories.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`,
-        `username=${username}`
+        `username=${this.us.getOrSetUserName()}`
       ].join('&');
       url = `${config.api}/ecocases/search/?${params}`;
     }
