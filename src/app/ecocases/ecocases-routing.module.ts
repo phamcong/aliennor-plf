@@ -6,9 +6,11 @@ import { EcocaseDetailResolverService } from './services/ecocase-detail-resolver
 import { EcocasePostComponent } from './components/ecocase-post/ecocase-post.component';
 import { UntaggedEcocasesComponent } from './components/untagged-ecocases/untagged-ecocases.component';
 import { VisualizationComponent } from './components/visualization/visualization.component';
+import { TaggedEcocasesComponent } from './components/tagged-ecocases/tagged-ecocases.component';
 
 const routes: Routes = [
   { path: 'ecocases', component: EcocasesComponent },
+  { path: 'tagged-ecocases', component: TaggedEcocasesComponent },
   { path: 'untagged-ecocases', component: UntaggedEcocasesComponent },
   { path: 'visualization', component: VisualizationComponent },
   {

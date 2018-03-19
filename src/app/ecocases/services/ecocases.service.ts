@@ -24,6 +24,19 @@ export class EcocasesService {
     'esms': [],
     'categories': []
   };
+  public updatedFilters = {
+    'esms': [],
+    'categories': []
+  };
+  public updatedFiltersByESM = {
+    'esms': [],
+    'categories': []
+  };
+  public ctgsFilters: any[];
+  public taggedEcocases: any[];
+  public untaggedEcocases: any[];
+  public ecocasesByESM: any[];
+  public ecocases: any[];
 
   constructor(
     private http: HttpClient,
@@ -41,7 +54,23 @@ export class EcocasesService {
     return date.toDate();
   }
 
-  getEcocases(filters: any): any {
+  getEcocases(filters: any, username: string): any {
+    let url = '';
+    if (filters.esms == undefined)
+      url = `${config.api}/ecocases/`;
+    else {
+      const params = [
+        `esms=${filters.esms.map(esm => (esm.checked) ? esm.title : '').join(',')}`,
+        `categories=${filters.categories.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`,
+        `username=${username}`
+      ].join('&');
+      url = `${config.api}/ecocases/search/?${params}`;
+    }
+    console.log('ecocases.service getTaggedEcocases ===> url: ', url);
+    return this.http.get(url);
+  }
+
+  getTaggedEcocases(filters: any, username: string): any {
     let url = '';
     if (filters.esms == undefined)
       url = `${config.api}/ecocases/`;
@@ -50,21 +79,50 @@ export class EcocasesService {
           `esms=${filters.esms.map(esm => (esm.checked) ? esm.title : '').join(',')}`,
           `categories=${filters.categories.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`
         ].join('&');
-      url = `${config.api}/ecocases/search/?${params}`;
+      url = `${config.api}/ecocases/${username}/tagged/search/?${params}`;
     }
-    console.log('ecocases.service getEcocases ===> url: ', url);
-    return this.http.get(url);
+    console.log('ecocases.service getTaggedEcocases ===> url: ', url);
+    return this.http.get(url)
+      .pipe(
+        map(res => {
+          this.taggedEcocases = res['data'].ecocases;
+          this.updatedFilters = this.updateFilters(filters, res['data'].count_results);
+          console.log('res: ', res);
+          console.log('filters', this.filters);
+        })
+      );
   }
 
-  getUntaggedEcocases(ctgsFilters: any): any {
+  getUntaggedEcocases(ctgsFilters: any, username: string): any {
     const params = [
       `categories=${ctgsFilters.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`
     ].join('&');
-    const url = `${config.api}/ecocases/untagged/search/?${params}`;
+    const url = `${config.api}/ecocases/${username}/untagged/search/?${params}`;
     console.log('ecocases.service getUntaggedEcocases ===> url: ', url);
-    return this.http.get(url);
+    return this.http.get(url)
+      .pipe(
+        map(res => {
+          this.untaggedEcocases = res['data']['untagged_ecocases'];
+          console.log('res: ', res);
+        }));
   }
 
+  getEcocasesbyESM(filters: any): any {
+    let url = '';
+    const params = [
+      `esms=${filters.esms.map(esm => (esm.checked) ? esm.title : '').join(',')}`,
+      `categories=${filters.categories.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`
+    ].join('&');
+    url = `${config.api}/esms/?{esmId}/ecocases/?${params}`;
+    console.log('ecocases.service getEcocasesbyESM ===> url: ', url);
+    return this.http.get(url)
+      .pipe(
+        map(res => {
+          this.ecocasesByESM = res['data'].ecocases;
+          this.updatedFiltersByESM = this.updateFilters(filters, res['data'].count_results);
+        })
+      );
+  }
 
   getESMsByEcocaseId(ecocaseId: string): Observable<any> {
     const params = [
@@ -202,10 +260,22 @@ export class EcocasesService {
     console.log('at getFilterCriteria');
     const url = `${config.api}/ecocases/filters`;
     const filters = {'esms': [], 'categories': []};
-    return this.http.get(`${url}`);
+    return this.http.get(`${url}`)
+      .pipe(
+        map(res => {
+          console.log('getFilterCriteria res: ', res);
+          this.filters.esms = res['data'].filter_criteria.esms.map(esm => {
+            esm.checked = true;
+            return esm
+          });
+          this.filters.categories = res['data'].filter_criteria.categories.map(ctg => {
+            ctg.checked = true;
+            return ctg;
+          });
+        }));
   }
 
-  submitEsmevaluations(esmevaluations: any[], ecocaseId: string): Observable<any> {
+  submitEsmevaluations(esmevaluations: any[], ecocaseId: string, nonESM): Observable<any> {
     const username = this.us.getOrSetUserName();
     const url = `${config.api}/ecocases/ecocase/${ecocaseId}/esms/${username}/submit/`;
     console.log('submitEsmevaluations - urllllllll: ', url);
@@ -213,7 +283,7 @@ export class EcocasesService {
     return this.us.user$.pipe(
       first(),
       mergeMap(user => {
-          return this.http.post(url, { esmevaluations }, { withCredentials: true });
+          return this.http.post(url, { esmevaluations, nonESM }, { withCredentials: true });
         }
       ));
   }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HelpersService } from '../../shared/services/helpers.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
@@ -6,6 +6,8 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { config } from '../../../config';
 import { map, first, tap } from "rxjs/operators";
+import { Router } from '@angular/router';
+import { EcocasesService } from '../../ecocases/services/ecocases.service';
 
 let headers = new HttpHeaders();
 headers.append('Content-Type', 'application/json');
@@ -22,10 +24,13 @@ export class UserService {
   user: any = false;
   loggedIn = false;
 
-  constructor(private http: HttpClient,
-              private hs: HelpersService,
-              public jwtHelperService: JwtHelperService) {
-    this.setUserData();
+  constructor(
+    private http: HttpClient,
+    private hs: HelpersService,
+    public jwtHelperService: JwtHelperService,
+    private router: Router,
+    private ngZone: NgZone
+  ){ this.setUserData();
   }
 
   authPost(url: string, data: any): Observable<any> {
@@ -61,6 +66,7 @@ export class UserService {
         tap(res => {
           console.log('user service login set token: ', res.data);
           this.setToken(res.data);
+          window.location.reload();
         })
     )
   }

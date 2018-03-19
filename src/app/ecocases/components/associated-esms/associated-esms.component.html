@@ -4,12 +4,12 @@
     <div *ngFor="let esmevaluation of esmevaluations; let idx = index">
       <div id="accordion">
         <div class="card">
-          <div class="card-header" id="heading{{idx}}">
-            <h5 class="mb-0">
+          <div class="card-header outer-div" id="heading{{idx}}">
+            <div class="inner-div">
               <button class="btn btn-link" data-toggle="collapse" attr.data-target="#collapse{{idx}}" aria-expanded="true" attr.aria-controls="collapse{{idx}}">
                 {{ esmevaluation.esm.title}}
               </button>
-            </h5>
+            </div>
           </div>
 
           <div id="collapse{{idx}}" class="collapse" attr.aria-labelledby="heading{{idx}}" data-parent="#accordion">
@@ -21,6 +21,22 @@
                   <div ng-bind-html="esmevaluation.answer"></div>
                 </div>
               </div>
+              <!--<form>
+                <div class="form-check form-check-inline inner-div-right">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{idx}}_2"
+                         [checked]="esmevaluation.is_second_esm == true"
+                         [value]="esmevaluation.is_second_esm"
+                         (change)="onSelectionSecondESM(esmevaluation, esmevaluations)">
+                  <label class="form-check-label" for="inlineRadio{{idx}}_2">2nd mécanisme</label>
+                </div>
+                <div class="form-check form-check-inline inner-div-right">
+                  <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio{{idx}}_1"
+                         [checked]="esmevaluation.is_first_esm == true"
+                         [value]="esmevaluation.is_first_name"
+                         (change)="onSelectionFirstESM(esmevaluation, esmevaluations)">
+                  <label class="form-check-label" for="inlineRadio{{idx}}_1">1er mécanisme</label>
+                </div>
+              </form>-->
             </div>
           </div>
         </div>
@@ -34,34 +50,39 @@
     <div class="row">
       <div class="col-md-6 evaluation-div">
         <div class="panel panel-default">
-          Le mécanisme le plus associé
+          Premier mécanisme le plus associé
           <div class="panel-body">
-            <select [(ngModel)]="firstESM">
-              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm">{{esmevaluation.esm.title}}</option>
+            <select [(ngModel)]="firstESM.title" (ngModelChange)="nonESM.isNonESM = false">
+              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm === secondESM">{{esmevaluation.esm.title}}</option>
             </select>
             <br>
-            {{firstESM.title}}
+            <i>Mécanisme sélectionné:</i> {{firstESM.title}}
           </div>
         </div>
       </div>
       <div class="col-md-6 evaluation-div">
         <div class="panel panel-default">
-          Le deuxième mécanisme le plus associé
+          Second mécanisme le plus adapté
           <div class="panel-body">
-            <select [(ngModel)]="secondESM">
-              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm" [disabled]="esmevaluation.esm === firstESM">{{esmevaluation.esm.title}}</option>
+            <select [(ngModel)]="secondESM.title" (ngModelChange)="onSelectionSecondESM()">
+              <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm === firstESM">{{esmevaluation.esm.title}}</option>
             </select>
             <br>
-            {{secondESM.title}}
+            <i>Mécanisme sélectionné:</i> {{secondESM.title}}
           </div>
         </div>
       </div>
     </div>
-    <button mat-raised-button color='primary' class="pull-right" (click)="submitEsmevaluations(esmevaluations)">Submit</button>
+
+    <input type="checkbox" [checked]="nonESM" [(ngModel)]="nonESM.isNonESM" (change)="clickNonESM(nonESM)"/> Non mécanismes associés
+    <div class="panel-body">
+      <textarea class="form-control" [(ngModel)]="nonESM.argumentation" placeholder="{{nonESM.argumentation}}" *ngIf="nonESM.isNonESM"></textarea>
+    </div>
+    <button mat-raised-button color='primary' class="pull-right" (click)="submitEsmevaluations(esmevaluations, ecocaseId, nonESM)">Submit</button>
   </div>
 </div>
 
-<div class="panel panel-default">
+<!--<div class="panel panel-default">
   <div class="panel-heading">Sommaire</div>
   <div class="panel-body">
     <div class="row">
@@ -81,4 +102,4 @@
       </div>
     </div>
   </div>
-</div>
+</div>-->

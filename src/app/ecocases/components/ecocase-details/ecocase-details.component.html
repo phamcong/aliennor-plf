@@ -42,7 +42,7 @@
 
       <hr>
 
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-6 evaluation-div">
           <div class="panel panel-default">
             <div class="panel-heading">Catégories</div>
@@ -63,9 +63,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div>-->
       <div class="row" *ngIf="(ecocase.first_esm == null) && (ecocase.second_esm == null)">
-        <app-associated-esms [esmevaluations]="esmevaluations" [ecocaseId]="ecocaseId"></app-associated-esms>
+        <app-associated-esms [esmevaluations]="esmevaluations" [nonESM]="nonESM" [ecocaseId]="ecocaseId"></app-associated-esms>
       </div>
       <div class="row" *ngIf="(ecocase.first_esm !== null) || (ecocase.second_esm !== null)">
         <div class="col-md-6 evaluation-div">

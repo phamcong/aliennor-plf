@@ -45,50 +45,25 @@ export class EsmEcocasesComponent implements OnInit {
             this.esm = res['data'].esm;
             this.esm['checked'] = true;
             this.filters$ = this.es.getFilterCriteria()
-              .pipe(
-                map(res => {
-                  this.filters.esms = [this.esm];
-                  this.filters.categories = res['data'].filter_criteria.categories.map(ctg => { ctg.checked = true; return ctg; });
-                  this.es.getEcocases(this.filters)
-                    .pipe(
-                      map( res => {
-                        console.log('esm-ecocases.component getEcocases ===> res: ', res);
-                        this.ecocases = res['data'].ecocases;
-                        this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
-                        console.log('fitlers: ', this.filters);
-                      }))
-                    .subscribe();
-                }))
-              .subscribe();
+              .subscribe( data => {
+                this.filters = this.es.filters;
+                this.filters.esms = [this.esm];
+                this.es.getEcocases(this.filters)
+                  .pipe(
+                    map(res => {
+                      this.ecocases = res['data'].ecocases;
+                      this.filters = this.es.updateFilters(this.filters, res['data'].count_results);
+                    })
+                  )
+                  .subscribe();
+              });
           }))
         .subscribe();
-      // this.ecocases$ = this.esmss.getEcocasesByESM(this.esmId)
-      //   .pipe(
-      //     map(res => {
-      //       console.log('esm-ecocases component res', res);
-      //       this.ecocases = res['data'].ecocases;
-      //     })
-      //   )
-      // this.ecocases$.subscribe();
     });
 
     this.spinnerStyles = {
       margin: '-24px -24px 16px -24px'
     };
-
-    /*this.filters$ = this.es.getFilterCriteria();
-    this.filters = this.es.filters;
-
-    this.esmss.getESMById(this.esmId)
-      .pipe(
-        map(res => {
-          this.esm = res['data'].esm;
-          this.esm['checked'] = true;
-        })
-      )
-      .subscribe();
-    console.log('esm: ', this.esm);
-    console.log('filters: ', this.filters);*/
   }
 
   getEcocaseDetails(ecocase: any): void {
