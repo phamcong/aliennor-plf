@@ -181,3 +181,26 @@ button {
   max-height: 50px;
   overflow-y: scroll;
 }
+
+.title-input {
+  width: 100%;
+  height: 45px;
+}
+
+.promise-textarea {
+  width: 100%;
+  height: 80px;
+}
+
+.description-textarea {
+  width: 100%;
+  height: 180px;
+}
+
+.editMode {
+  display: auto;
+}
+
+.viewMode {
+  display: none;
+}
