@@ -26,7 +26,7 @@
         </div>
         <div class="col-md-8 characters-area">
           <div class="panel panel-default">
-            <div class="panel-heading">Promise</div>
+            <div class="panel-heading">Promesse</div>
             <div class="panel-body promise-panel">
               {{ ecocase.promise | htmlToPlaintext }}
             </div>
@@ -42,28 +42,6 @@
 
       <hr>
 
-      <!--<div class="row">
-        <div class="col-md-6 evaluation-div">
-          <div class="panel panel-default">
-            <div class="panel-heading">Catégories</div>
-            <div class="panel-body ctg-level-panel">
-              <ul *ngFor="let ctg of ecocase.categories">
-                <li>{{ctg}}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 evaluation-div">
-          <div class="panel panel-default">
-            <div class="panel-heading">Niveau</div>
-            <div class="panel-body ctg-level-panel">
-              <ul *ngFor="let level of ecocase.levels">
-                <li>{{level}}</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>-->
       <div class="row">
         <app-associated-esms [esmevaluations]="esmevaluations" [nonESM]="nonESM" [ecocaseId]="ecocaseId" [username]="username"></app-associated-esms>
       </div>
@@ -94,8 +72,11 @@
           <a href="{% url 'ecocases:upload_image' (ecocase$ | async).id %}">Upload more images?</a>
         </div>
       </div>-->
+      <button mat-raised-button color='warn' class="pull-right" (click)="deleteEcocase(esmevaluations, ecocaseId, nonESM)">Delete</button>
+      <button mat-raised-button color='accent' class="pull-right" (click)="editEcocase(esmevaluations, ecocaseId, nonESM)">Edit</button>
     </div>
   </div>
+
   <div class="panel panel-default">
     <app-ecocase-comments [ecocaseId]="ecocaseId" width="200"></app-ecocase-comments>
   </div>

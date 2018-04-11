@@ -8,7 +8,7 @@
     <span class="menu-space-filler"></span>
 
     <span *ngIf="us.user$ | async; else notAuth">
-      Hello
+      Bonjour
       <button mat-button [matMenuTriggerFor]="menuRef">
         {{(us.user$ | async).username }}
         <i class="fa fa-caret-down" aria-hidden="true"></i>

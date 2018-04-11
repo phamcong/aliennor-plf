@@ -50,7 +50,7 @@
     <div class="row">
       <div class="col-md-6 evaluation-div">
         <div class="panel panel-default">
-          Premier mécanisme le plus associé
+          Premier mécanisme le plus adapté
           <div class="panel-body">
             <select [(ngModel)]="firstESM.title" (ngModelChange)="nonESM.isNonESM = false">
               <option *ngFor="let esmevaluation of esmevaluations" [ngValue]="esmevaluation.esm.title" [disabled]="esmevaluation.esm.title === secondESM.title">{{esmevaluation.esm.title}}</option>
@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <input type="checkbox" [checked]="nonESM" [(ngModel)]="nonESM.isNonESM" (change)="clickNonESM(nonESM)"/> Non mécanismes associés
+    <input type="checkbox" [checked]="nonESM" [(ngModel)]="nonESM.isNonESM" (change)="clickNonESM(nonESM)"/> Aucun mécanismes associés
     <div class="panel-body">
       <textarea class="form-control" [(ngModel)]="nonESM.argumentation" placeholder="{{nonESM.argumentation}}" *ngIf="nonESM.isNonESM"></textarea>
     </div>
@@ -88,7 +88,7 @@
     <div class="row">
       <div class="col-md-6 evaluation-div">Mécanisme</div>
       <div class="col-md-3 evaluation-div">Taggé comme 1er mécanisme</div>
-      <div class="col-md-3 evaluation-div">Taggé as 2nd mecanisme</div>
+      <div class="col-md-3 evaluation-div">Taggé as 2nd mécanisme</div>
     </div>
     <div class="row" *ngFor="let associatedESM of associatedESMs">
       <div class="col-md-6 evaluation-div">

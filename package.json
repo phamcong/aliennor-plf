@@ -49,6 +49,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "moment": "^2.20.1",
     "ngx-pagination": "^3.0.3",
+    "node-sass": "^4.8.3",
     "protractor": "~5.1.2",
     "rxjs": "^5.5.2",
     "ts-node": "~3.2.0",
@@ -60,7 +61,7 @@
     "@types/d3": "^5.0.0"
   },
   "engines": {
-    "node": "6.10.3",
+    "node": "9.11.1",
     "npm": "3.10.10"
   }
 }
