@@ -166,6 +166,21 @@ export class EcocasesService {
     return this.http.get(url);
   }
 
+  updateEcocase(ecocase: any): any {
+    console.log('update ecocase; ', ecocase);
+    const url = `${config.api}/ecocases/ecocase/post`;
+    return this.http.put(url, { ecocase }, { withCredentials: true});
+  }
+
+  deleteEcocase(ecocase: any): any {
+    console.log('delete ecocase; ', ecocase);
+    const params = [
+      `id=${ecocase.id}`
+    ].join('&');
+    const url = `${config.api}/ecocases/ecocase/post`;
+    return this.http.delete(`${config.api}/ecocases/ecocase/post?${params}`);
+  }
+
   getEcocaseInternalDetails(id: string): Observable<any> {
     const params = [
       `username=${this.us.getOrSetUserName()}`

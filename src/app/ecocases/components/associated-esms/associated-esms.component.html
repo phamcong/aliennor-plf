@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <input type="checkbox" [checked]="nonESM" [(ngModel)]="nonESM.isNonESM" (change)="clickNonESM(nonESM)"/> Aucun mécanismes associés
+    <input type="checkbox" [checked]="nonESM" [(ngModel)]="nonESM.isNonESM" (change)="clickNonESM(nonESM)"/> Aucun mécanisme associé
     <div class="panel-body">
       <textarea class="form-control" [(ngModel)]="nonESM.argumentation" placeholder="{{nonESM.argumentation}}" *ngIf="nonESM.isNonESM"></textarea>
     </div>

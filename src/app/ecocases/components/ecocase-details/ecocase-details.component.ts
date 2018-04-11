@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../../auth/services/user.service';
 import { EcocasesService } from '../../services/ecocases.service';
 import { HelpersService } from '../../../shared/services/helpers.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { forEach } from '@angular/router/src/utils/collection';
 
@@ -16,19 +16,24 @@ export class EcocaseDetailsComponent implements OnInit {
   ecocaseInternalDetails: any;
   ecocaseId: string;
   ecocase: any;
+  previousEcocase: any;
   esmevaluations: any[];
   previousUserRating = 0;
   nonESM: any;
   username: string;
+  isEdit: boolean;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     public us: UserService,
     private es: EcocasesService,
     private helpers: HelpersService
   ) { }
 
   ngOnInit() {
+    this.isEdit = false;
+    this.previousEcocase = {};
     console.log('this.route: ', this.route);
     this.username = this.us.getOrSetUserName();
     // this.route.data.pipe(
@@ -64,6 +69,34 @@ export class EcocaseDetailsComponent implements OnInit {
         this.ecocaseId = ecocaseId;
       });
   }
+
+  editEcocase(): void {
+    Object.assign(this.previousEcocase, this.ecocase);
+    this.isEdit = true;
+  }
+
+  cancelEdit(): void {
+    Object.assign(this.ecocase, this.previousEcocase);
+    this.isEdit = false;
+  }
+
+  updateEcocase(ecocase: any): void {
+    this.es.updateEcocase(ecocase)
+      .pipe(map(res => { console.log('update ecocase', res); }))
+      .subscribe();
+    this.isEdit = false;
+  }
+
+  deleteEcocase(ecocase: any): void {
+    console.log('to delete ecocase....');
+    this.es.deleteEcocase(ecocase)
+      .pipe(map(res => { console.log('ecocase deleted successfully', res); }))
+      .subscribe( res => {
+          this.router.navigate(['ecocases/']);
+          window.location.reload();
+        });
+  }
+
 /*
   private getInternalDetails(id: string): void {
     this.es.getEcocaseInternalDetails(id)
