@@ -15,9 +15,20 @@
               <div class="panel-heading">Visualisation</div>
               <div class="panel-body visualization-panel">
                 <div class="list-inline">
-                  <div *ngFor="let image_url of ecocase.image_urls" class="center-block">
+                  <div *ngFor="let image_url of ecocase.image_urls; let idx = index" class="center-block">
                     <img src="{{ image_url }}" class='inline-image' alt="">
+                    <button class="btn btn-danger btn-xs" color='warn' *ngIf="isEdit" (click)="removeImage(ecocase, idx)">x</button>
                   </div>
+                </div>
+              </div>
+              <div class="panel-footer" *ngIf="isEdit">
+                <div class="input-group">
+                  <label class="input-group-btn">
+                    <span class="btn btn-primary">
+                        Browse&hellip; <input type="file" style="display: none;" (change)="getFileDetails($event)" multiple>
+                    </span>
+                  </label>
+                  <input type="text" class="form-control" placeholder="Uploader autres images?" [(ngModel)]="uploadMessage" readonly>
                 </div>
               </div>
             </div>
@@ -48,10 +59,14 @@
           <button mat-raised-button color='accent' class="pull-right"
                   *ngIf="isEdit" class="pull-right"
                   (click)="updateEcocase(ecocase)"
-                  [disabled]="(previousEcocase.title == ecocase.title) && (previousEcocase.promise == ecocase.promise) && (previousEcocase.description == ecocase.description)">Save
+                  [disabled]="(previousEcocase.title == ecocase.title) &&
+                              (previousEcocase.promise == ecocase.promise) &&
+                              (previousEcocase.description == ecocase.description) &&
+                              (removedUrls.length == 0) &&
+                              (uploadFiles.length == 0)">Save
           </button>
-          <button mat-raised-button color='warn' class="pull-right" *ngIf="!isEdit" (click)="deleteEcocase(ecocase)">Delete</button>
-          <button mat-raised-button color='primary' class="pull-right" *ngIf="!isEdit" (click)="editEcocase()">Edit</button>
+          <button mat-raised-button color='warn' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="deleteEcocase(ecocase)">Delete</button>
+          <button mat-raised-button color='primary' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="editEcocase()">Edit</button>
         </div>
 
         <div class="row">

@@ -166,10 +166,10 @@ export class EcocasesService {
     return this.http.get(url);
   }
 
-  updateEcocase(ecocase: any): any {
+  updateEcocase(ecocase: any, uploadFiles: any[], removedUrls: string[]): any {
     console.log('update ecocase; ', ecocase);
     const url = `${config.api}/ecocases/ecocase/post`;
-    return this.http.put(url, { ecocase }, { withCredentials: true});
+    return this.http.put(url, { ecocase, uploadFiles, removedUrls }, { withCredentials: true});
   }
 
   deleteEcocase(ecocase: any): any {

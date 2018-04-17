@@ -22,6 +22,9 @@ export class EcocaseDetailsComponent implements OnInit {
   nonESM: any;
   username: string;
   isEdit: boolean;
+  uploadFiles: any[];
+  uploadMessage: string;
+  removedUrls: string[];
 
   constructor(
     private route: ActivatedRoute,
@@ -36,6 +39,9 @@ export class EcocaseDetailsComponent implements OnInit {
     this.previousEcocase = {};
     console.log('this.route: ', this.route);
     this.username = this.us.getOrSetUserName();
+    this.uploadMessage = '';
+    this.uploadFiles = [];
+    this.removedUrls = [];
     // this.route.data.pipe(
     //   map(res => {
     //     console.log('get ecocase detail, res: ', res.ecocase.data);
@@ -71,20 +77,33 @@ export class EcocaseDetailsComponent implements OnInit {
   }
 
   editEcocase(): void {
-    Object.assign(this.previousEcocase, this.ecocase);
+    this.previousEcocase = JSON.parse(JSON.stringify(this.ecocase));
+    console.log('cancelEdit editEcocase: ', this.previousEcocase);
     this.isEdit = true;
   }
 
   cancelEdit(): void {
-    Object.assign(this.ecocase, this.previousEcocase);
+    console.log('cancelEdit previousEcocase: ', this.previousEcocase);
+    this.ecocase = JSON.parse(JSON.stringify(this.previousEcocase));
     this.isEdit = false;
   }
 
   updateEcocase(ecocase: any): void {
-    this.es.updateEcocase(ecocase)
-      .pipe(map(res => { console.log('update ecocase', res); }))
-      .subscribe();
-    this.isEdit = false;
+    this.es.updateEcocase(ecocase, this.uploadFiles, this.removedUrls)
+      .pipe()
+      .subscribe(res => {
+        console.log('update ecocase', res);
+        if (res.status === 'success') {
+          this.isEdit = false;
+          this.helpers.showMessage('Les modifications sont bien enregistrées.');
+          this.router.navigateByUrl('/ecocases', {skipLocationChange: true}).then(() =>
+            this.router.navigate(['ecocases/detail/' + this.ecocaseId]));
+        } else {
+          this.helpers.showMessage('Les modifications ne peuvent être pas enregistrées. Erreur(s): ' + res.errors);
+        }
+      });
+    this.uploadFiles = [];
+    this.uploadMessage = '';
   }
 
   deleteEcocase(ecocase: any): void {
@@ -95,6 +114,28 @@ export class EcocaseDetailsComponent implements OnInit {
           this.router.navigate(['ecocases/']);
           window.location.reload();
         });
+  }
+
+  removeImage(ecocase: any, idx: number) {
+    this.removedUrls.push(ecocase.image_urls[idx]);
+    ecocase.image_urls.splice(idx, 1);
+  }
+
+  getFileDetails (event) {
+    for (let i = 0; i < event.target.files.length; i++) {
+      const reader = new FileReader();
+      const file = event.target.files[i];
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.uploadFiles.push({
+          filename: file.name,
+          filetype: file.type.split('/')[1],
+          value: reader.result.split(',')[1]
+        });
+      };
+    }
+    this.uploadMessage = event.target.files.length + ' fichier(s) sélectionné(s)';
+    console.log('Upload files: ', this.uploadFiles);
   }
 
 /*

@@ -9,18 +9,18 @@
             itemsPerPage: commentsData?.itemsPerPage,
             currentPage: commentsData?.currentPage,
             totalItems: commentsData?.itemsPerPage * commentsData?.totalPages
-          }">
-        <div class="commenterImage">
-          <img src="../../../../assets/images/user-icon.png" />
-        </div>
-        <div class="commentText">
-          <span>{{ comment.username }}</span>
-          <p class="">{{comment.body}}</p>
-          <span class="date sub-text">{{ comment.date | date:'medium' }}</span>
-          <span *ngIf="comment.username == currentUser" (click)="removeComment(comment.id)" class="remove-comment">
-            <i class="fa fa-times-circle-o" aria-hidden="true" title="Remove comment"></i>
-          </span>
-        </div>
+          }" >
+          <div class="commenterImage" *ngIf="(comment.username == currentUser) || (currentUser == 'admin')">
+            <img src="../../../../assets/images/user-icon.png" />
+          </div>
+          <div class="commentText" *ngIf="(comment.username == currentUser) || (currentUser == 'admin')">
+            <span>{{ comment.username }}</span>
+            <p class="">{{comment.body}}</p>
+            <span class="date sub-text">{{ comment.date | date:'medium' }}</span>
+            <span (click)="removeComment(comment.id)" class="remove-comment">
+              <i class="fa fa-times-circle-o" aria-hidden="true" title="Remove comment"></i>
+            </span>
+          </div>
       </li>
     </ul>
     <form fxFlexLayout="row" fxLayoutAlign="center" novalidate
