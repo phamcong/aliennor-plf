@@ -11,12 +11,14 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { TruncatePipe } from './pipes/custommed-pipes.pipe';
+import { HelpComponent } from './components/help/help.component';
 
 const COMPONENTS = [
   ErrorbarComponent,
   LoadingSpinnerComponent,
   ToolbarComponent,
-  WelcomeComponent
+  WelcomeComponent,
+  HelpComponent
 ]
 
 @NgModule({
@@ -41,7 +43,8 @@ const COMPONENTS = [
   declarations: [
     ...COMPONENTS,
     WelcomeComponent,
-    TruncatePipe
+    TruncatePipe,
+    HelpComponent
   ]
 })
 export class SharedModule { }

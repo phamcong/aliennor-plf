@@ -1,5 +1,62 @@
 <div fxLayout="row">
   <div fxFlex="100">
+    <h1>Mettre à jour du profil</h1>
+  </div>
+</div>
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex="100" class="cont">
+    <div *ngIf="updateProfileForm.errors?.formError" class="alert error">
+      <strong> Une erreur </strong> s'est produite lors de la soumission
+    </div>
+    <div *ngIf="success?.profile" class="alert success">
+      Profil d'utilisateur est <strong>bien mis à jour</strong>
+    </div>
+    <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()" novalidate>
+      <mat-input-container class="fw block">
+        <input matInput placeholder="Utilisateur" formControlName="username">
+      </mat-input-container>
+      <mat-input-container class="fw block">
+        <input matInput placeholder="Email" formControlName="email">
+        <mat-error *ngIf="updateProfileForm.controls.email.errors?.emailInvalid">L'email n'est pas valide</mat-error>
+      </mat-input-container>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div fxFlex="50">
+          <button mat-raised-button type="submit" [disabled]="!updateProfileForm.valid || updateProfileForm.pending">
+            <i *ngIf="updateProfileForm.pending" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+            Mettre à jour le profil d'utilisateur
+          </button>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="passwordForm.errors?.formError" class="alert error">
+      <strong>Il y a des erreurs</strong> lors de la soumission
+    </div>
+    <div *ngIf="passwordForm.errors?.wrongPassword" class="alert error">
+      L'ancien mot de passe entré <strong>n'est pas correct</strong>.
+      <strong>Il y a des erreurs</strong> lors de la soumission
+    </div>
+    <div *ngIf="success?.password" class="alert success">
+      Mot de passe mis à jour <strong>avec succès</strong>
+    </div>
+    <form [formGroup]="passwordForm" (ngSubmit)="updatePassword()" novalidate>
+      <app-password-form [isEdit]="true" [sourceForm]="passwordForm"></app-password-form>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div fxFlex="50">
+          <button mat-raised-button type="submit" [disabled]="!passwordForm.valid || passwordForm.pending">
+            <i *ngIf="passwordForm.pending" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+            Metre à jour le mot de passe
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--ENGLISH-->
+
+<!--
+<div fxLayout="row">
+  <div fxFlex="100">
     <h1>Update user details</h1>
   </div>
 </div>
@@ -50,3 +107,4 @@
     </form>
   </div>
 </div>
+-->

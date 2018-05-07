@@ -1,17 +1,18 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Mécanismes associés</div>
+  <div class="panel-heading">
+    Mécanismes associés
+  </div>
   <div class="panel-body">
+    <div class="instruction-text">
+      <i class="instruction-text">Chaque mécanisme est associé à une question. Cliquer sur un mécanisme pour la consulter et y répondre.</i><br>
+    </div>
+
     <div *ngFor="let esmevaluation of esmevaluations; let idx = index">
       <div id="accordion">
         <div class="card">
-          <div class="card-header outer-div" id="heading{{idx}}">
-            <div class="inner-div">
-              <button class="btn btn-link" data-toggle="collapse" attr.data-target="#collapse{{idx}}" aria-expanded="true" attr.aria-controls="collapse{{idx}}">
-                {{ esmevaluation.esm.title}}
-              </button>
-            </div>
-          </div>
-
+          <a data-toggle="collapse" attr.data-target="#collapse{{idx}}" aria-expanded="true" attr.aria-controls="collapse{{idx}}">
+            {{ esmevaluation.esm.title}}
+          </a>
           <div id="collapse{{idx}}" class="collapse" attr.aria-labelledby="heading{{idx}}" data-parent="#accordion">
             <div class="panel panel-default">
               <div class="panel-heading">{{ esmevaluation.question.title }}</div>
@@ -78,7 +79,72 @@
     <div class="panel-body">
       <textarea class="form-control" [(ngModel)]="nonESM.argumentation" placeholder="{{nonESM.argumentation}}" *ngIf="nonESM.isNonESM"></textarea>
     </div>
-    <button mat-raised-button color='primary' class="pull-right" (click)="submitEsmevaluations(esmevaluations, ecocaseId, nonESM)">Submit</button>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel panel-heading">
+    Caractérisation du statut d'éco-innovation
+  </div>
+  <div class="panel panel-body">
+    <div class="row">
+      <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">Gain environnemental</div>
+        <div class="panel-body ecoinnovation-status-panel-body">
+          <div *ngFor="let item of environGains">
+            <form action="">
+              <input type="radio" name="radiogroup"
+                     [checked]="item.level == selectedEnvironGain"
+                     [value]="item.level"
+                     (change)="environGainChange(item)"> {{item.level}}
+            </form>
+          </div>
+          <textarea class="form-control comment-box" [(ngModel)]="environGainEval.comment" placeholder="Ajouter un commentaire"></textarea>
+        </div>
+      </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">Potentiel d'effet de masse de l'éco-innovation</div>
+          <div class="panel-body ecoinnovation-status-panel-body">
+            <div class="instruction-text">
+              <i>Cliquer sur une ligne d'option pour ajouter des commentaires</i><br>
+            </div>
+            <div *ngFor="let item of ecoEffectPotentialEvals; let idx=index;">
+              <input type="checkbox" name="checkboxgroup"
+                     [checked]="item.selected"
+                     [(ngModel)]="item.selected"
+                     (change)="ecoEffectPotentialChange(item)">
+              <a data-toggle="collapse" attr.data-target="#eepEval{{idx}}" aria-expanded="true" attr.aria-controls="eepEval{{idx}}">
+                {{item.eco_effect_potential.title}}
+              </a>
+              <div class="collapse" id="eepEval{{idx}}">
+                <div class="card card-body">
+                  <textarea class="form-control comment-box" [(ngModel)]="item.comment" placeholder="Ajouter un commentaire"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        <div *ngFor="let item of ecoinnovationStatuss;">
+          <form action="">
+            <input type="radio" name="radiogroup"
+                   [checked]="item.title == selectedEcoinnovationStatus"
+                   [value]="item.title"
+                   (change)="ecoinnovationStatusChange(item)"> {{item.title}}
+          </form>
+        </div>
+        <textarea class="form-control comment-box" [(ngModel)]="ecoinnovationStatusEval.comment" placeholder="Ajouter un commentaire"></textarea>
+      </div>
+    </div>
+
+    <button mat-raised-button color='primary' class="pull-right" (click)="submitEsmevaluations()">Soumettre</button>
   </div>
 </div>
 

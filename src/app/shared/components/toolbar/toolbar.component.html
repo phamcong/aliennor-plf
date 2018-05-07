@@ -1,14 +1,14 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-button routerLink="welcome">ALIENNOR</button>
-    <button mat-button routerLink="ecocases">Cas d'éco-innovation</button>
+    <button mat-button routerLink="welcome">ACCUEIL</button>
     <button mat-button routerLink="esms">Mécanismes</button>
+    <button mat-button routerLink="ecocases">Cas d'éco-innovation</button>
     <button mat-button routerLink="visualization">Visualisation</button>
+    <button mat-button routerLink="help">Aide</button>
 
     <span class="menu-space-filler"></span>
 
     <span *ngIf="us.user$ | async; else notAuth">
-      Bonjour
       <button mat-button [matMenuTriggerFor]="menuRef">
         {{(us.user$ | async).username }}
         <i class="fa fa-caret-down" aria-hidden="true"></i>

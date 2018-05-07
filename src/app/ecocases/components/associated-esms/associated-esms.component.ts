@@ -18,7 +18,12 @@ export class AssociatedEsmsComponent implements OnInit {
   @Input() ecocaseId: string;
   @Input() nonESM: any;
   @Input() username: string;
+  @Input() environGains: any[]; @Input() environGainEval: any;
+  @Input() ecoEffectPotentialEvals: any[];
+  @Input() ecoinnovationStatuss: any[]; @Input() ecoinnovationStatusEval: any;
   firstESM: any;
+  selectedEnvironGain = '';
+  selectedEcoinnovationStatus = '';
   secondESM: any;
   esms: string[];
   associatedESMs: any[];
@@ -37,6 +42,8 @@ export class AssociatedEsmsComponent implements OnInit {
   ngOnInit() {
     this.firstESM = {'title': ''};
     this.secondESM = {'title': ''};
+    this.selectedEnvironGain = (this.environGainEval.environ_gain.level !== undefined) ? this.environGainEval.environ_gain.level : '';
+    this.selectedEcoinnovationStatus = (this.ecoinnovationStatusEval.ecoinnovation_status.title !== undefined) ? this.ecoinnovationStatusEval.ecoinnovation_status.title : '';
     console.log('associated-esm.component init:...', this.esmevaluations);
     this.esmevaluations.forEach((esmevaluation, index) => {
       if (esmevaluation.is_first_esm) {
@@ -78,35 +85,49 @@ export class AssociatedEsmsComponent implements OnInit {
       });*/
   }
 
-  submitEsmevaluations(esmevaluations: any[], ecocaseId, nonESM): void{
-    if ((this.firstESM.title == '') && (!this.nonESM))
-      alert('Veuillez-vous indiquer au moin un mécanisme associé ou cochez non mécanismes associés ligne');
-    else {
-      console.log('esmevaluations: ', esmevaluations);
-      esmevaluations.forEach(function(esmevaluation) {
-        console.log('forEach esmevaluation: ', esmevaluation);
-        esmevaluation.isFirstESM = esmevaluation.esm.title == this.firstESM.title;
-        esmevaluation.isSecondESM = esmevaluation.esm.title == this.secondESM.title;
-      }, this);
-      this.es.submitEsmevaluations(esmevaluations, ecocaseId, nonESM)
-        .subscribe(res => {
-          console.log('submit esmevaluations successfully!');
-          this.associatedESMs$.next(1);
-        });
-      this.moveItem(this.es.untaggedEcocases, ecocaseId, this.es.taggedEcocases);
-      this.router.navigate([`ecocases`]);
+  submitEsmevaluations(): void {
+    console.log('firstESM: ', this.firstESM);
+    console.log('nonESM: ', this.nonESM.isNonESM);
+    this.environGainEval.environGain = this.selectedEnvironGain;
+    this.ecoinnovationStatusEval.ecoinnovationStatus = this.selectedEcoinnovationStatus;
+    if ((this.firstESM.title === '') && (!this.nonESM.isNonESM)) {
+      alert('Veuillez-vous indiquer au moin un mécanisme associé ou cochez non mécanismes associés ligne.');
+    } else {
+      if (this.selectedEnvironGain === '') {
+        alert('Veuillez-vous indiquer le niveau du gain environnemental.');
+      } else {
+        if (this.selectedEcoinnovationStatus === '') {
+          alert("Veuillez-vous indiquer le status d'éco-innovation.");
+        } else {
+          console.log('esmevaluations: ', this.esmevaluations);
+          this.esmevaluations.forEach(function(esmevaluation) {
+            console.log('forEach esmevaluation: ', esmevaluation);
+            esmevaluation.isFirstESM = esmevaluation.esm.title === this.firstESM.title;
+            esmevaluation.isSecondESM = esmevaluation.esm.title === this.secondESM.title;
+          }, this);
+          this.es.submitEsmevaluations(this.esmevaluations, this.ecocaseId, this.nonESM, this.environGainEval, this.ecoEffectPotentialEvals, this.ecoinnovationStatusEval)
+            .subscribe(res => {
+              console.log('submit esmevaluations successfully!');
+              this.associatedESMs$.next(1);
+            });
+          this.moveItem(this.es.untaggedEcocases, this.ecocaseId, this.es.taggedEcocases);
+          this.router.navigate([`ecocases`]);
+        }
+      }
     }
   };
 
   private moveItem(untaggedEcocases, ecocaseId, taggedEcocase) {
     let idx = -1;
-    untaggedEcocases.forEach((unTaggedEcocase, index) => {
-      if (unTaggedEcocase.id == ecocaseId)
-        idx = index;
-    });
-    if (idx != -1) {
-      taggedEcocase.push(untaggedEcocases[idx]);
-      untaggedEcocases.splice(idx, 1);
+    if (untaggedEcocases !== undefined) {
+      untaggedEcocases.forEach((unTaggedEcocase, index) => {
+        if (unTaggedEcocase.id == ecocaseId)
+          idx = index;
+      });
+      if (idx !== -1) {
+        taggedEcocase.push(untaggedEcocases[idx]);
+        untaggedEcocases.splice(idx, 1);
+      }
     }
   }
 
@@ -123,8 +144,23 @@ export class AssociatedEsmsComponent implements OnInit {
     nonESM.isNonESM = false;
   }
 
+  private environGainChange(option: any): void {
+    this.selectedEnvironGain = option.level;
+    console.log('environGains: ', this.environGains);
+    console.log('selectedEnvironGain: ', this.selectedEnvironGain);
+  }
+
+  private ecoinnovationStatusChange(option: any): void {
+    this.selectedEcoinnovationStatus = option.title;
+    console.log('environGains: ', this.ecoinnovationStatuss);
+    console.log('selectedEnvironGain: ', this.selectedEcoinnovationStatus);
+  }
+
+  private ecoEffectPotentialChange(option: any): void {
+    console.log('selected option: ', option);
+  }
   public onSelectionSecondESM(): void {
-    if (this.firstESM.title == '') {
+    if (this.firstESM.title === '') {
       alert('Veuillez-vous sélectionner le premier mécanisme le plus associé');
       this.secondESM = {'title': ''};
     }

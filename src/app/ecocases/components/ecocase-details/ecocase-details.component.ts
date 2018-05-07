@@ -21,6 +21,9 @@ export class EcocaseDetailsComponent implements OnInit {
   previousUserRating = 0;
   nonESM: any;
   username: string;
+  environGains: any[] = []; environGainEval: any = {};
+  ecoEffectPotentialEvals: any[] = [];
+  ecoinnovationStatuss: any[] = []; ecoinnovationStatusEval: any = {};
   isEdit: boolean;
   uploadFiles: any[];
   uploadMessage: string;
@@ -70,6 +73,11 @@ export class EcocaseDetailsComponent implements OnInit {
                 let str = esmevaluation.answer;
                 esmevaluation.answer = str ? String(str).replace(/<[^>]+>/gm, '') : '';
               });
+              this.environGains = res['data']['environ_gains'];
+              this.environGainEval = res['data']['environ_gain_eval'];
+              this.ecoEffectPotentialEvals = res['data']['eco_effect_potential_evals'];
+              this.ecoinnovationStatuss = res['data']['ecoinnovation_statuss'];
+              this.ecoinnovationStatusEval = res['data']['ecoinnovation_status_eval'];
             }))
           .subscribe();
         this.ecocaseId = ecocaseId;

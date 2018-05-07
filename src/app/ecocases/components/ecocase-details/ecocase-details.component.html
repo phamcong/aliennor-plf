@@ -25,7 +25,7 @@
                 <div class="input-group">
                   <label class="input-group-btn">
                     <span class="btn btn-primary">
-                        Browse&hellip; <input type="file" style="display: none;" (change)="getFileDetails($event)" multiple>
+                        Parcourir&hellip; <input type="file" style="display: none;" (change)="getFileDetails($event)" multiple>
                     </span>
                   </label>
                   <input type="text" class="form-control" placeholder="Uploader autres images?" [(ngModel)]="uploadMessage" readonly>
@@ -55,7 +55,7 @@
               </div>
             </div>
           </div>
-          <button mat-raised-button color='primary' *ngIf="isEdit" class="pull-right" (click)="cancelEdit()">Cancel</button>
+          <button mat-raised-button color='primary' *ngIf="isEdit" class="pull-right" (click)="cancelEdit()">Annuler</button>
           <button mat-raised-button color='accent' class="pull-right"
                   *ngIf="isEdit" class="pull-right"
                   (click)="updateEcocase(ecocase)"
@@ -63,14 +63,21 @@
                               (previousEcocase.promise == ecocase.promise) &&
                               (previousEcocase.description == ecocase.description) &&
                               (removedUrls.length == 0) &&
-                              (uploadFiles.length == 0)">Save
+                              (uploadFiles.length == 0)">Enregistrer
           </button>
-          <button mat-raised-button color='warn' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="deleteEcocase(ecocase)">Delete</button>
-          <button mat-raised-button color='primary' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="editEcocase()">Edit</button>
+          <button mat-raised-button color='warn' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="deleteEcocase(ecocase)">Supprimer</button>
+          <button mat-raised-button color='primary' class="pull-right" *ngIf="!isEdit && (username == 'admin')" (click)="editEcocase()">Editer</button>
         </div>
 
         <div class="row">
-          <app-associated-esms [esmevaluations]="esmevaluations" [nonESM]="nonESM" [ecocaseId]="ecocaseId" [username]="username"></app-associated-esms>
+          <app-associated-esms [esmevaluations]="esmevaluations"
+                               [nonESM]="nonESM" [ecocaseId]="ecocaseId"
+                               [username]="username"
+                               [environGains]="environGains"
+                               [environGainEval]="environGainEval"
+                               [ecoEffectPotentialEvals]="ecoEffectPotentialEvals"
+                               [ecoinnovationStatuss]="ecoinnovationStatuss"
+                               [ecoinnovationStatusEval]="ecoinnovationStatusEval"></app-associated-esms>
         </div>
         <hr>
         <div class="row" *ngIf="(ecocase.first_esm !== null) || (ecocase.second_esm !== null)">

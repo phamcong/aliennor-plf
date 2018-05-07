@@ -9,6 +9,36 @@
         </ul>
       </div>
       <mat-input-container class="fw block">
+        <input matInput placeholder="Utilisateur" formControlName="username">
+      </mat-input-container>
+      <mat-input-container class="fw block">
+        <input matInput type="password" placeholder="Mot de passe" formControlName="password">
+      </mat-input-container>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <div fxFlex="50">
+          <button mat-raised-button type="submit" [disabled]="!loginForm.valid || loginForm.pending">
+            <i *ngIf="loginForm.pending" class="fa fa-circle-o-notch fa-spin fa-fw"></i>
+            Se connecter
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!--ENGLISH-->
+
+<!--<div fxLayout="row" fxLayoutAlign="center">
+  <div fxFlex="100" class="cont">
+    <form [formGroup]="loginForm" (ngSubmit)="submitForm()" novalidate>
+      <div *ngIf="loginForm.errors" class="alert error">
+        <ul>
+          <li *ngFor="let error of (loginForm.errors | errorsToList)">
+            {{ error }}
+          </li>
+        </ul>
+      </div>
+      <mat-input-container class="fw block">
         <input matInput placeholder="Username" formControlName="username">
       </mat-input-container>
       <mat-input-container class="fw block">
@@ -24,4 +54,4 @@
       </div>
     </form>
   </div>
-</div>
+</div>-->
