@@ -1,6 +1,6 @@
-<mat-toolbar color="primary">
+<!--<mat-toolbar color="primary">
   <mat-toolbar-row>
-    <button mat-button routerLink="welcome">ACCUEIL</button>
+    <button mat-button routerLink="welcome">ACCEUIL</button>
     <button mat-button routerLink="esms">Mécanismes</button>
     <button mat-button routerLink="ecocases">Cas d'éco-innovation</button>
     <button mat-button routerLink="visualization">Visualisation</button>
@@ -29,6 +29,42 @@
     <ng-template #notAuth>
       <button mat-button routerLink="/user/register">S'inscrire</button>
       <button mat-button routerLink="/user/login">S'indentifier</button>
+    </ng-template>
+  </mat-toolbar-row>
+</mat-toolbar>-->
+
+<!--Anglais-->
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-button routerLink="welcome">WELCOME</button>
+    <button mat-button routerLink="esms">Mechanisms</button>
+    <button mat-button routerLink="ecocases">Eco-innovation cases</button>
+    <button mat-button routerLink="visualization">Visualization</button>
+    <button mat-button routerLink="help">Help</button>
+
+    <span class="menu-space-filler"></span>
+
+    <span *ngIf="us.user$ | async; else notAuth">
+      <button mat-button [matMenuTriggerFor]="menuRef">
+        {{(us.user$ | async).username }}
+        <i class="fa fa-caret-down" aria-hidden="true"></i>
+      </button>
+
+      <mat-menu #menuRef="matMenu">
+        <button mat-menu-item (click)="goToEditProfile()">
+          <mat-icon><i class="fa fa-pencil-square-o" aria-hidden="true"></i></mat-icon>
+          Mettre à jour du profil
+        </button>
+        <button mat-menu-item (click)="logout($event)">
+          <mat-icon><i class="fa fa-sign-out" aria-hidden="true"></i></mat-icon>
+          Déconnecter
+        </button>
+      </mat-menu>
+    </span>
+
+    <ng-template #notAuth>
+      <button mat-button routerLink="/user/register">Register</button>
+      <button mat-button routerLink="/user/login">Login</button>
     </ng-template>
   </mat-toolbar-row>
 </mat-toolbar>
