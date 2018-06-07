@@ -6,20 +6,21 @@ import { EcocasesService } from '../../services/ecocases.service';
 import * as d3 from 'd3';
 
 @Component({
-  selector: 'app-esms-visualization',
-  templateUrl: './esms-visualization.component.html',
-  styleUrls: ['./esms-visualization.component.scss']
+  selector: 'app-esm-taggedcases-visualization',
+  templateUrl: './esm-taggedcases-visualization.component.html',
+  styleUrls: ['./esm-taggedcases-visualization.component.scss']
 })
-
-export class EsmsVisualizationComponent implements OnInit {
+export class EsmTaggedcasesVisualizationComponent implements OnInit {
   vis; simulation;
   color;
   node; nodeText; link; nodeIcon;
   width; height; div; centerNode;
+  showNodeText; showLink;
 
   public esms: any[];
   public ecocases: any[];
   public d3ESMEcocases: {'nodes': any[], 'links': any[]};
+
   constructor(
     private es: EcocasesService,
     private esmss: EsmsService,
@@ -28,6 +29,8 @@ export class EsmsVisualizationComponent implements OnInit {
 
 
   ngOnInit() {
+    this.showNodeText = false;
+    this.showLink = false;
     this.width = document.getElementById('esmEcocasesGraph').clientWidth;
     this.height = document.getElementById('esmEcocasesGraph').clientHeight;
     this.esmss.getESMs()
@@ -35,7 +38,7 @@ export class EsmsVisualizationComponent implements OnInit {
         map(res => {
           console.log('esmsssssssssssss:', res['data'].esms);
           this.esms = res['data'].esms;
-          this.esmss.getEcocasesByESM(this.esms[0].id)
+          this.esmss.getTaggedEcocasesByESM(this.esms[0].id)
             .pipe(
               map(res => {
                 console.log('esms-visualization => clickESM => res ', res);
@@ -51,7 +54,7 @@ export class EsmsVisualizationComponent implements OnInit {
 
   clickESM(esm: any): any {
     console.log('click ESM: ', esm);
-    this.esmss.getEcocasesByESM(esm.id)
+    this.esmss.getTaggedEcocasesByESM(esm.id)
       .pipe(
         map(res => {
           console.log('esms-visualization => clickESM => res ', res);
@@ -65,19 +68,31 @@ export class EsmsVisualizationComponent implements OnInit {
 
   getD3ESMEcocases(esm, ecocases, width, height) {
     let nodes = [], links = [];
-    nodes.push({'id': esm.id.toString(), 'title': esm.title, 'group': 1, 'x': width/2, 'y': height/2, 'fx': width/2, 'fy': height/2, 'iconURL': esm.logo_url});
+    nodes.push({'id': esm.id.toString(), 'title': esm.title, 'group': 1, 'x': width/2, 'y': height/2, 'r': 25, 'fx': width/2, 'fy': height/2, 'iconURL': esm.logo_url});
     ecocases.forEach((ecocase, index) => {
       nodes.push({
         'id': ecocase.id.toString(),
         'title': ecocase.title,
-        'group': ecocase.is_first_esm ? 2 : 3,
-        'fx': ecocase.is_first_esm ? width/2+150 : width/2-150,
-        'fy': height - 100*index,
-        'x': ecocase.is_first_esm ? width/2+150 : width/2-150,
-        'y': height - 100*index,
+        'group': 2, // esm is tagged as the 1st mechanism
+        'r': ecocase.first_esm_count * 10,
+        'x': Math.random() * width / 2 + width / 2,
+        'y': Math.random() * height,
+        'fx': Math.random() * width / 2 + width / 2,
+        'fy': Math.random() * height,
         'iconURL': ''
       });
-      links.push({'source': esm.id, 'target': ecocase.id, 'value': 1});
+      nodes.push({
+        'id': ecocase.id.toString(),
+        'title': ecocase.title,
+        'group': 3, // esm is tagged as the 2nd mechanism
+        'r': ecocase.second_esm_count * 10,
+        'x': Math.random() * width / 2,
+        'y': Math.random() * height,
+        'fx': Math.random() * width / 2,
+        'fy': Math.random() * height,
+        'iconURL': ''
+      });
+      if (this.showLink) { links.push({'source': esm.id, 'target': ecocase.id, 'value': 1}) };
     });
     return {'nodes': nodes, 'links': links};
   }
@@ -116,8 +131,11 @@ export class EsmsVisualizationComponent implements OnInit {
       .attr('x', (d) => d.x - 25)
       .attr('y', (d) => d.y - 25);
 
-    // this.nodeText.attr('x', function(d){ return d.x; })
-    //   .attr('y', function (d) {return d.y - 10; });
+    if (this.showNodeText) {
+      this.nodeText
+        .attr('x', function(d){ return d.x; })
+        .attr('y', function (d) {return d.y - 10; });
+    };
   }
 
   render(graph, graphDiv){
@@ -135,21 +153,22 @@ export class EsmsVisualizationComponent implements OnInit {
       .data(graph.nodes)
       .enter().filter(function(d) { return d.iconURL === ''; })
       .append('circle')
-      .attr('r', (d) => d.group === 1 ? 20 : 15)
+      .attr('r', (d) => d.r)
       .attr('fill', (d) => this.color(d.group))
       .call(d3.drag()
         .on('start', (d) => this.dragstarted(d))
         .on('drag', (d) => this.dragged(d))
         .on('end', (d) => this.dragended(d)))
       .on('click', (d) => {
-          console.log(d);
-          if (d.group !== 1) this.router.navigate([`ecocases/detail/${d.id}`]);
-        })
-      .on('mouseover', (d) => this.onmouseover(d, this.div, graphDiv))
-      .on('mouseout', this.onmouseout(graphDiv))
+        console.log(d);
+        if (d.group !== 1) this.router.navigate([`ecocases/detail/${d.id}`]);
+      })
+      .on('mouseover', (d) => this.onmouseover(d, graphDiv))
+      .on('mouseout', (d) => this.onmouseout(graphDiv))
     ;
 
-    /*this.nodeText = this.vis.selectAll('.nodeText')
+    if (this.showNodeText) {
+      this.nodeText = this.vis.selectAll('.nodeText')
       .data(graph.nodes)
       .enter()
       .append('text')
@@ -161,8 +180,9 @@ export class EsmsVisualizationComponent implements OnInit {
       .style('font-size', 15)
       .on('click', (d) => {
         console.log(d);
-        if (d.group !== 1) this.router.navigate([`ecocases/detail/${d.id}`]);
-      });*/
+        if (d.group !== 1) { this.router.navigate([`ecocases/detail/${d.id}`]); }
+      });
+    }
 
     this.nodeIcon = this.vis.selectAll('.nodeIcon')
       .data(graph.nodes)
@@ -175,10 +195,10 @@ export class EsmsVisualizationComponent implements OnInit {
       .attr('width', '50px')
       .attr('height', '50px')
       .on('click', (d) => {
-          console.log(d);
-          if (d.group !== 1) this.router.navigate([`mechanisms`]);
-        })
-      .on('mouseover', (d) => this.onmouseover(d, this.div, graphDiv))
+        console.log(d);
+        if (d.group !== 1) this.router.navigate([`mechanisms`]);
+      })
+      .on('mouseover', (d) => this.onmouseover(d, graphDiv))
       .on('mouseout', (d) => this.onmouseout(graphDiv));
 
     this.simulation
@@ -201,20 +221,20 @@ export class EsmsVisualizationComponent implements OnInit {
     d.fx = d3.event.x; d.fy = d3.event.y;
   }
 
-  onmouseover(d, div, graphDiv) {
-    div = d3.select('#d3' + graphDiv).append('div')
+  onmouseover(d, graphDiv) {
+    this.div = d3.select('#d3' + graphDiv).append('div')
       .attr('class', 'tooltip')
       .attr('id', 'idTooltip');
 
     console.log(d);
 
-    div.transition()
+    this.div.transition()
       .duration(50)
       .style('opacity', .9)
       .style('left', d.x + 'px')
       .style('top', d.y - 25 + 'px');
 
-    div.html('<p>' + d.title + '</p>');
+    this.div.html('<p>' + d.title + '</p>');
   }
 
   onmouseout(graphDiv) {

@@ -1,2 +1,22 @@
-<app-esms-visualization></app-esms-visualization>
-<app-ecocases-visualization></app-ecocases-visualization>
+<div class="container">
+  <h3>Visualisation</h3>
+  <p>
+    Chaque mécanisme est utilisé pour plusieurs cas, en revanche, un cas d'éco-innovation est associé à un ou deux mécanismes les plus pertinents.
+    Les associations entre les mécanismes et les cas d'éco-innovation sont représentées visuellement en deux onglets:
+    <a (click)="toggleClass('Ecocase')">Visualisation par cas</a> et <a (click)="toggleClass('ESM')">Visualisation par mécanisme</a>
+  </p>
+
+  <ul class="nav nav-tabs">
+    <li><a (click)="toggleClass('Ecocase')" [ngStyle]="{'background-color': showEcocase ? '#F39C12' : '#34495E'}">Visualisation par cas</a></li>
+    <li><a (click)="toggleClass('ESM')" [ngStyle]="{'background-color': showESM ? '#F39C12' : '#34495E'}">Visualisation par mécanisme</a></li>
+  </ul>
+
+  <div class="tab-content visualization-panel">
+    <div id="mechanisms" *ngIf="showESM">
+      <app-esm-taggedcases-visualization></app-esm-taggedcases-visualization>
+    </div>
+    <div id="ecocases" *ngIf="showEcocase">
+      <app-ecocases-visualization></app-ecocases-visualization>
+    </div>
+  </div>
+</div>

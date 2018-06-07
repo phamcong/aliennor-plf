@@ -27,3 +27,20 @@
 .instruction-text {
   margin-bottom: 10px;
 }
+
+.test {
+  background-color: #00B0CC;
+}
+
+select {
+  color: black !important; // color of the selected option
+}
+
+select option {
+  color: black !important; // color of all the other options
+}
+
+textarea::placeholder {
+  color: #7c8896;
+  opacity: 0.9;
+}

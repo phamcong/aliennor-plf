@@ -56,9 +56,9 @@ export class EcocasesService {
 
   getEcocases(filters: any): any {
     let url = '';
-    if (filters.esms == undefined)
+    if (filters.esms === undefined) {
       url = `${config.api}/ecocases/`;
-    else {
+    } else {
       const params = [
         `esms=${filters.esms.map(esm => (esm.checked) ? esm.title : '').join(',')}`,
         `categories=${filters.categories.map(ctg => (ctg.checked) ? ctg.title : '').join(',')}`,
@@ -66,7 +66,7 @@ export class EcocasesService {
       ].join('&');
       url = `${config.api}/ecocases/search/?${params}`;
     }
-    console.log('ecocases.service getTaggedEcocases ===> url: ', url);
+    console.log('ecocases.service get ecocases ===> url: ', url);
     return this.http.get(url);
   }
 

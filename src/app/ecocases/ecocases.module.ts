@@ -13,6 +13,7 @@ import { EcocasesVisualizationComponent } from './components/ecocases-visualizat
 import { VisualizationComponent } from './components/visualization/visualization.component';
 import { EsmsVisualizationComponent } from './components/esms-visualization/esms-visualization.component';
 import { TaggedEcocasesComponent } from './components/tagged-ecocases/tagged-ecocases.component';
+import { EsmTaggedcasesVisualizationComponent } from './components/esm-taggedcases-visualization/esm-taggedcases-visualization.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { TaggedEcocasesComponent } from './components/tagged-ecocases/tagged-eco
     VisualizationComponent,
     EcocasesVisualizationComponent,
     EsmsVisualizationComponent,
-    TaggedEcocasesComponent
+    TaggedEcocasesComponent,
+    EsmTaggedcasesVisualizationComponent
   ],
   providers: [
     EcocaseDetailResolverService

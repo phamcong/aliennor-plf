@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {EcocasesService} from '../../services/ecocases.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-visualization',
@@ -6,10 +9,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./visualization.component.scss']
 })
 export class VisualizationComponent implements OnInit {
-
+  public currentActiveClass: string;
+  public showESM: boolean;
+  public showEcocase: boolean;
   constructor() { }
 
   ngOnInit() {
+    this.currentActiveClass = 'ESM';
+    this.showESM = false;
+    this.showEcocase = true;
   }
 
+  toggleClass(tab: string): void {
+    console.log('toggleClass ===> ');
+    if (tab === 'ESM') {
+      this.currentActiveClass = 'ESM';
+      this.showESM = true;
+      this.showEcocase = false;
+    } else {
+      this.currentActiveClass = 'Ecocase';
+      this.showESM = false;
+      this.showEcocase = true;
+    }
+  }
 }

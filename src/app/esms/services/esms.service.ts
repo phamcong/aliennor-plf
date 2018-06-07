@@ -28,6 +28,12 @@ export class EsmsService {
     return this.http.get(`${url}`);
   }
 
+  getTaggedEcocasesByESM(esmId): Observable<any> {
+    const url = `${config.api}/esms/${esmId}/taggedecocases`;
+    console.log(url);
+    return this.http.get(`${url}`);
+  }
+
   getESMById(esmId): any {
     const url = `${config.api}/esms/${esmId}`;
     return this.http.get(`${url}`);
