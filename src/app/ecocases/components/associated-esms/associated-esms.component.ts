@@ -19,10 +19,15 @@ export class AssociatedEsmsComponent implements OnInit {
   @Input() nonESM: any;
   @Input() username: string;
   @Input() environGains: any[]; @Input() environGainEval: any;
+  @Input() reboundPotentials: any[]; @Input() reboundPotentialEval: any;
+  @Input() massEffectPotentials: any[]; @Input() massEffectPotentialEval: any;
+  @Input() ecocaseGeneralEval: any;
   @Input() ecoEffectPotentialEvals: any[];
   @Input() ecoinnovationStatuss: any[]; @Input() ecoinnovationStatusEval: any;
   firstESM: any;
   selectedEnvironGain = '';
+  selectedReboundPotential = '';
+  selectedMassEffectPotential = '';
   selectedEcoinnovationStatus = '';
   secondESM: any;
   esms: string[];
@@ -43,6 +48,8 @@ export class AssociatedEsmsComponent implements OnInit {
     this.firstESM = {'title': ''};
     this.secondESM = {'title': ''};
     this.selectedEnvironGain = (this.environGainEval.environ_gain.level !== undefined) ? this.environGainEval.environ_gain.level : '';
+    this.selectedReboundPotential = (this.reboundPotentialEval.rebound_potential.level !== undefined) ? this.reboundPotentialEval.rebound_potential.level : '';
+    this.selectedMassEffectPotential = (this.massEffectPotentialEval.mass_effect_potential.level !== undefined) ? this.massEffectPotentialEval.mass_effect_potential.level : '';
     this.selectedEcoinnovationStatus = (this.ecoinnovationStatusEval.ecoinnovation_status.title !== undefined) ? this.ecoinnovationStatusEval.ecoinnovation_status.title : '';
     console.log('associated-esm.component init:...', this.esmevaluations);
     this.esmevaluations.forEach((esmevaluation, index) => {
@@ -88,7 +95,9 @@ export class AssociatedEsmsComponent implements OnInit {
   submitEsmevaluations(): void {
     console.log('firstESM: ', this.firstESM);
     console.log('nonESM: ', this.nonESM.isNonESM);
-    this.environGainEval.environGain = this.selectedEnvironGain;
+    this.environGainEval.environ_gain = this.selectedEnvironGain;
+    this.reboundPotentialEval.rebound_potential = this.selectedReboundPotential;
+    this.massEffectPotentialEval.mass_effect_potential = this.selectedMassEffectPotential;
     this.ecoinnovationStatusEval.ecoinnovationStatus = this.selectedEcoinnovationStatus;
     if ((this.firstESM.title === '') && (!this.nonESM.isNonESM)) {
       alert('Veuillez-vous indiquer au moin un mécanisme associé ou cochez non mécanismes associés ligne.');
@@ -96,26 +105,39 @@ export class AssociatedEsmsComponent implements OnInit {
       if (this.selectedEnvironGain === '') {
         alert('Veuillez-vous indiquer le niveau du gain environnemental.');
       } else {
-        if (this.selectedEcoinnovationStatus === '') {
-          alert("Veuillez-vous indiquer le status d'éco-innovation.");
+        if (this.selectedReboundPotential === '') {
+          alert("Veuillez-vous indiquer le potentiel d'effects rebonds.");
         } else {
-          console.log('esmevaluations: ', this.esmevaluations);
-          this.esmevaluations.forEach(function(esmevaluation) {
-            console.log('forEach esmevaluation: ', esmevaluation);
-            esmevaluation.isFirstESM = esmevaluation.esm.title === this.firstESM.title;
-            esmevaluation.isSecondESM = esmevaluation.esm.title === this.secondESM.title;
-          }, this);
-          this.es.submitEsmevaluations(this.esmevaluations, this.ecocaseId, this.nonESM, this.environGainEval, this.ecoEffectPotentialEvals, this.ecoinnovationStatusEval)
-            .subscribe(res => {
-              console.log('submit esmevaluations successfully!');
-              this.associatedESMs$.next(1);
-            });
-          this.moveItem(this.es.untaggedEcocases, this.ecocaseId, this.es.taggedEcocases);
-          this.router.navigate([`ecocases`]);
+          if (this.selectedMassEffectPotential === '') {
+            alert("Veuillez-vous indiquer le potentiel d’effet de masse de l’éco-innovation.");
+          } else {
+            console.log('esmevaluations: ', this.esmevaluations);
+            this.esmevaluations.forEach(function (esmevaluation) {
+              console.log('forEach esmevaluation: ', esmevaluation);
+              esmevaluation.isFirstESM = esmevaluation.esm.title === this.firstESM.title;
+              esmevaluation.isSecondESM = esmevaluation.esm.title === this.secondESM.title;
+            }, this);
+            this.es.submitEsmevaluations(
+              this.esmevaluations,
+              this.ecocaseId,
+              this.nonESM,
+              this.environGainEval,
+              this.reboundPotentialEval,
+              this.massEffectPotentialEval,
+              this.ecocaseGeneralEval,
+              this.ecoEffectPotentialEvals,
+              this.ecoinnovationStatusEval)
+              .subscribe(res => {
+                console.log('submit esmevaluations successfully!');
+                this.associatedESMs$.next(1);
+              });
+            this.moveItem(this.es.untaggedEcocases, this.ecocaseId, this.es.taggedEcocases);
+            this.router.navigate([`ecocases`]);
+          }
         }
       }
     }
-  };
+  }
 
   private moveItem(untaggedEcocases, ecocaseId, taggedEcocase) {
     let idx = -1;
@@ -148,6 +170,18 @@ export class AssociatedEsmsComponent implements OnInit {
     this.selectedEnvironGain = option.level;
     console.log('environGains: ', this.environGains);
     console.log('selectedEnvironGain: ', this.selectedEnvironGain);
+  }
+
+  private reboundPotentialChange(option: any): void {
+    this.selectedReboundPotential = option.level;
+    console.log('rebound potential: ', this.reboundPotentials);
+    console.log('selected rebound potential: ', this.selectedReboundPotential);
+  }
+
+  private massEffectPotentialChange(option: any): void {
+    this.selectedMassEffectPotential = option.level;
+    console.log('mass effect potential: ', this.massEffectPotentials);
+    console.log('selected mass effect potential: ', this.selectedMassEffectPotential);
   }
 
   private ecoinnovationStatusChange(option: any): void {

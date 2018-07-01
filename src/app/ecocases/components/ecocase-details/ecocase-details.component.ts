@@ -22,6 +22,9 @@ export class EcocaseDetailsComponent implements OnInit {
   nonESM: any;
   username: string;
   environGains: any[] = []; environGainEval: any = {};
+  reboundPotentials: any[] = []; reboundPotentialEval: any = {};
+  massEffectPotentials: any[] = []; massEffectPotentialEval: any = {};
+  ecocaseGeneralEval: any = {};
   ecoEffectPotentialEvals: any[] = [];
   ecoinnovationStatuss: any[] = []; ecoinnovationStatusEval: any = {};
   isEdit: boolean;
@@ -75,6 +78,11 @@ export class EcocaseDetailsComponent implements OnInit {
               });
               this.environGains = res['data']['environ_gains'];
               this.environGainEval = res['data']['environ_gain_eval'];
+              this.reboundPotentials = res['data']['rebound_potentials'];
+              this.reboundPotentialEval = res['data']['rebound_potential_eval'];
+              this.massEffectPotentials = res['data']['mass_effect_potentials'];
+              this.massEffectPotentialEval = res['data']['mass_effect_potential_eval'];
+              this.ecocaseGeneralEval = res['data']['ecocase_general_eval'];
               this.ecoEffectPotentialEvals = res['data']['eco_effect_potential_evals'];
               this.ecoinnovationStatuss = res['data']['ecoinnovation_statuss'];
               this.ecoinnovationStatusEval = res['data']['ecoinnovation_status_eval'];

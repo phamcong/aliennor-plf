@@ -290,7 +290,14 @@ export class EcocasesService {
         }));
   }
 
-  submitEsmevaluations(esmevaluations: any[], ecocaseId: string, nonESM, environGainEval, ecoEffectPotentialEvals, ecoinnovationStatusEval): Observable<any> {
+  submitEsmevaluations(esmevaluations: any[],
+                       ecocaseId: string, nonESM,
+                       environGainEval,
+                       reboundPotentialEval,
+                       massEffectPotentialEval,
+                       ecocaseGeneralEval,
+                       ecoEffectPotentialEvals,
+                       ecoinnovationStatusEval): Observable<any> {
     const username = this.us.getOrSetUserName();
     const url = `${config.api}/ecocases/ecocase/${ecocaseId}/esms/${username}/submit/`;
     console.log('submitEsmevaluations - urllllllll: ', url);
@@ -298,7 +305,14 @@ export class EcocasesService {
     return this.us.user$.pipe(
       first(),
       mergeMap(user => {
-          return this.http.post(url, { esmevaluations, nonESM, environGainEval, ecoEffectPotentialEvals, ecoinnovationStatusEval }, { withCredentials: true });
+          return this.http.post(url, { esmevaluations,
+            nonESM,
+            environGainEval,
+            reboundPotentialEval,
+            massEffectPotentialEval,
+            ecocaseGeneralEval,
+            ecoEffectPotentialEvals,
+            ecoinnovationStatusEval }, { withCredentials: true });
         }
       ));
   }
