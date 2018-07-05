@@ -16,3 +16,4 @@ export const config = {
   api: isDev ? apiEndpoints.dev : prodEndpoint,
   dev_api_url: 'http://localhost:8080/api/ecocases'
 };
+

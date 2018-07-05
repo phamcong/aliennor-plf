@@ -16,7 +16,7 @@ headers.append('X-CSRFToken', localStorage.getItem('csrftoken'));
 const httpOptions = {
   headers: headers,
   withCredentials: true
-}
+};
 
 @Injectable()
 export class EcocasesService {
@@ -72,7 +72,7 @@ export class EcocasesService {
 
   getTaggedEcocases(filters: any, username: string): any {
     let url = '';
-    if (filters.esms == undefined)
+    if (filters.esms === undefined)
       url = `${config.api}/ecocases/`;
     else {
         const params = [

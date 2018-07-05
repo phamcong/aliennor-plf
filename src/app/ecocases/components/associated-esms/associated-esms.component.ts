@@ -18,6 +18,7 @@ export class AssociatedEsmsComponent implements OnInit {
   @Input() ecocaseId: string;
   @Input() nonESM: any;
   @Input() username: string;
+  @Input() caseReference: string;
   @Input() environGains: any[]; @Input() environGainEval: any;
   @Input() reboundPotentials: any[]; @Input() reboundPotentialEval: any;
   @Input() massEffectPotentials: any[]; @Input() massEffectPotentialEval: any;

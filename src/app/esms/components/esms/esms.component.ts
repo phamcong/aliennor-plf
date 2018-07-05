@@ -21,13 +21,8 @@ export class EsmsComponent implements OnInit {
 
   ngOnInit() {
     this.esms$ = this.esmss.getESMs()
-      .pipe(
-        map(res => {
-          console.log('esmsssssssssssss:', res['data'].esms);
-          return res['data'].esms;
-        }))
       .subscribe(data => {
-        this.esms = data;
+        this.esms = this.esmss.esms;
       });
   }
 }
