@@ -92,7 +92,7 @@
           <div class="panel-heading character-title">
             Gain environnemental comparé au système de référence: <b><i><u>{{ caseReference }}</u></i></b>
           </div>
-          <div class="panel-body ecoinnovation-status-panel-body">
+          <div class="panel-body">
             <div *ngFor="let item of environGains">
               <form action="">
                 <input type="radio" name="radiogroup"
@@ -109,7 +109,7 @@
           <div class="panel-heading character-title">
             Potentiel d’effets rebonds (négatifs)
           </div>
-          <div class="panel-body ecoinnovation-status-panel-body">
+          <div class="panel-body">
             <div *ngFor="let item of reboundPotentials">
               <form action="">
                 <input type="radio" name="radiogroup"
@@ -118,7 +118,6 @@
                        (change)="reboundPotentialChange(item)"> <label [style.color]="item.color">{{item.level}}</label>
               </form>
             </div>
-            <!--<textarea class="form-control comment-box" [(ngModel)]="environGainEval.comment" placeholder="Ajouter un commentaire"></textarea>-->
           </div>
         </div>
       </div>
@@ -128,10 +127,7 @@
             <i>(système utilisé très fréquemment ou par de nombreux utilisateurs ou
               provoquant un apprentissage pro-environnemental)</i>
           </div>
-          <div class="panel-body ecoinnovation-status-panel-body">
-            <!--<div class="instruction-text">-->
-              <!--<i>Cliquer sur une ligne d'option pour ajouter des commentaires</i><br>-->
-            <!--</div>-->
+          <div class="panel-body">
             <div *ngFor="let item of massEffectPotentials; let idx=index;">
               <form action="">
                 <input type="radio" name="radiogroup"
@@ -166,7 +162,6 @@
         </form>
       </div>
     </div>
-
     <div class="row">
       <div class="col-md-6">
         Commentaire sur les conséquences sociales / sociétales éventuelles
@@ -177,22 +172,6 @@
         <textarea class="form-control comment-box" [(ngModel)]="ecocaseGeneralEval.case_characterizations_comment" placeholder="Ajouter un commentaire"></textarea>
       </div>
     </div>
-
-    <!--<div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md-6">
-        <div *ngFor="let item of ecoinnovationStatuss;">
-          <form action="">
-            <input type="radio" name="radiogroup"
-                   [checked]="item.title == selectedEcoinnovationStatus"
-                   [value]="item.title"
-                   (change)="ecoinnovationStatusChange(item)"> {{item.title}}
-          </form>
-        </div>
-        <textarea class="form-control comment-box" [(ngModel)]="ecoinnovationStatusEval.comment" placeholder="Ajouter un commentaire"></textarea>
-      </div>
-    </div>-->
-
     <button mat-raised-button color='primary' class="pull-right" (click)="submitEsmevaluations()">Soumettre</button>
   </div>
 </div>
