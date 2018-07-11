@@ -181,6 +181,15 @@ export declare class Router {
      */
     onSameUrlNavigation: 'reload' | 'ignore';
     /**
+     * Defines how the router merges params, data and resolved data from parent to child
+     * routes. Available options are:
+     *
+     * - `'emptyOnly'`, the default, only inherits parent params for path-less or component-less
+     *   routes.
+     * - `'always'`, enables unconditional inheritance of parent params.
+     */
+    paramsInheritanceStrategy: 'emptyOnly' | 'always';
+    /**
      * Creates the router service.
      */
     constructor(rootComponentType: Type<any> | null, urlSerializer: UrlSerializer, rootContexts: ChildrenOutletContexts, location: Location, injector: Injector, loader: NgModuleFactoryLoader, compiler: Compiler, config: Routes);
@@ -309,6 +318,11 @@ export declare class Router {
     private scheduleNavigation(rawUrl, source, extras);
     private executeScheduledNavigation({id, rawUrl, extras, resolve, reject});
     private runNavigate(url, rawUrl, skipLocationChange, replaceUrl, id, precreatedState);
+    /**
+     * Performs the logic of activating routes. This is a synchronous process by default. While this
+     * is a private method, it could be overridden to make activation asynchronous.
+     */
+    private activateRoutes(state, storedState, storedUrl, id, url, rawUrl, skipLocationChange, replaceUrl, resolvePromise, rejectPromise);
     private resetStateAndUrl(storedState, storedUrl, rawUrl);
     private resetUrlToCurrentUrlTree();
 }

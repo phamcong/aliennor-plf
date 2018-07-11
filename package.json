@@ -1,17 +1,19 @@
 {
-  "name": "aliennor-frontend",
-  "version": "0.0.0",
-  "license": "MIT",
+  "name": "angular-io-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Example project from an angular.io guide.",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
     "build": "ng build --prod",
+    "start": "ng serve",
     "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --aot -prod"
+    "lint": "tslint ./src/**/*.ts -t verbose",
+    "e2e": "ng e2e"
   },
-  "private": true,
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
   "dependencies": {
     "@angular/animations": "^5.1.2",
     "@angular/cdk": "^5.0.3",
@@ -20,7 +22,7 @@
     "@angular/compiler": "^5.0.0",
     "@angular/compiler-cli": "^5.2.7",
     "@angular/core": "^5.0.0",
-    "@angular/flex-layout": "^2.0.0-beta.12",
+    "@angular/flex-layout": "2.0.0-beta.10",
     "@angular/forms": "^5.0.0",
     "@angular/http": "^5.0.0",
     "@angular/language-service": "^5.0.0",
@@ -63,5 +65,6 @@
   "engines": {
     "node": "9.11.1",
     "npm": "3.10.10"
-  }
+  },
+  "repository": {}
 }
