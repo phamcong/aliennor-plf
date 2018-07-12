@@ -1,0 +1,26 @@
+<div class="container">
+  <h5>Télécharger le fichier contenant les informations des évaluateurs.</h5>
+
+  <table>
+    <tr>
+      <td>
+        <input type="file"
+               #fileImportInput
+               name="File Upload"
+               id="txtFileUpload"
+               class="btn btn-primary"
+               (change)="fileChangeListener($event)"
+               accept=".csv, .json"/>
+      </td>
+      <td style="padding: 5px;">
+        <input type="button"
+               name="Reset"
+               id="txtFileReset"
+               class="btn btn-primary"
+               (click)="getAllocationCasUsers()"
+               value="Send"/>
+      </td>
+    </tr>
+  </table>
+
+</div>

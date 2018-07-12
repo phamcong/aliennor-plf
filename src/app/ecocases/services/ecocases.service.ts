@@ -54,6 +54,13 @@ export class EcocasesService {
     return date.toDate();
   }
 
+  getAllocationCasUsers(usersInfos: any): any {
+    console.log('get allocation cas users: ', usersInfos);
+    const url = `${config.api}/users/allocation-cas-users`;
+    const user = this.us.getOrSetUserName();
+    return this.http.post(url, {user, usersInfos }, { withCredentials: true });
+  }
+
   getEcocases(filters: any): any {
     let url = '';
     if (filters.esms === undefined) {

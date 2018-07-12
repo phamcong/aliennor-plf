@@ -9,7 +9,7 @@ import { UserService } from '../../../auth/services/user.service';
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent implements OnInit {
-
+  user: any;
   constructor(
     public us: UserService,
     public router: Router
@@ -22,6 +22,8 @@ export class ToolbarComponent implements OnInit {
         this.us.logout();
       }
     });
+    this.user = this.us.getOrSetUserName();
+    console.log('userrrr: ', this.user);
   }
 
   logout(): void {

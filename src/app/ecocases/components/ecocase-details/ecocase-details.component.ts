@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from '../../../auth/services/user.service';
 import { EcocasesService } from '../../services/ecocases.service';
 import { HelpersService } from '../../../shared/services/helpers.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { forEach } from '@angular/router/src/utils/collection';
 

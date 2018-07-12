@@ -7,12 +7,14 @@ import { EcocasePostComponent } from './components/ecocase-post/ecocase-post.com
 import { UntaggedEcocasesComponent } from './components/untagged-ecocases/untagged-ecocases.component';
 import { VisualizationComponent } from './components/visualization/visualization.component';
 import { TaggedEcocasesComponent } from './components/tagged-ecocases/tagged-ecocases.component';
+import { UsersComponent } from './components/users/users.component';
 
 const routes: Routes = [
   { path: 'ecocases', component: EcocasesComponent },
   { path: 'tagged-ecocases', component: TaggedEcocasesComponent },
   { path: 'untagged-ecocases', component: UntaggedEcocasesComponent },
   { path: 'visualization', component: VisualizationComponent },
+  { path: 'users', component: UsersComponent },
   {
     path: 'ecocases/detail/:id',
     component: EcocaseDetailsComponent,
